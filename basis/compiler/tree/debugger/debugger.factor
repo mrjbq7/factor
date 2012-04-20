@@ -93,7 +93,7 @@ M: #shuffle node>quot
         { [ dup #>r? ] [ drop \ >R , ] }
         { [ dup #r>? ] [ drop \ R> , ] }
         {
-            [ dup [ in-r>> empty? ] [ out-r>> empty? ] bi and ]
+            [ dup { [ in-r>> empty? ] [ out-r>> empty? ] } 1&& ]
             [
                 shuffle-effect dup pretty-shuffle
                 [ % ] [ shuffle-node boa , ] ?if

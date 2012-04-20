@@ -1,7 +1,8 @@
 ! Copyright (C) 2008, 2010 Slava Pestov.
 ! See http://factorcode.org/license.txt for BSD license.
 USING: kernel classes.algebra sequences accessors arrays fry
-math math.intervals layouts combinators namespaces locals
+math math.intervals layouts combinators combinators.short-circuit
+namespaces locals
 stack-checker.inlining
 compiler.tree
 compiler.tree.combinators
@@ -90,11 +91,11 @@ M: #recursive propagate-around ( #recursive -- )
     label>> enter-recursive>> node-output-infos ;
 
 : generalize-return-interval ( info -- info' )
-    dup [ literal?>> ] [ class>> null-class? ] bi or
+    dup { [ literal?>> ] [ class>> null-class? ] } 1||
     [ clone [-inf,inf] >>interval ] unless ;
 
-: generalize-return ( infos -- infos' )
-    [ generalize-return-interval ] map ;
+: generalize-return ( infos -- infos )
+    [ generalize-return-interval ] map! ;
 
 : return-infos ( node -- infos )
     label>> return>> node-input-infos generalize-return ;

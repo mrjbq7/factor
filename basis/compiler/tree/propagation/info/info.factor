@@ -90,7 +90,7 @@ UNION: fixed-length array byte-array string ;
 : empty-set? ( info -- ? )
     {
         [ class>> null-class? ]
-        [ [ interval>> empty-interval eq? ] [ class>> real class<= ] bi and ]
+        [ { [ interval>> empty-interval eq? ] [ class>> real class<= ] } 1&& ]
     } 1|| ;
 
 : min-value ( class -- n )
@@ -189,21 +189,13 @@ DEFER: value-info-intersect
 DEFER: (value-info-intersect)
 
 : intersect-slot ( info1 info2 -- info )
-    {
-        { [ dup not ] [ nip ] }
-        { [ over not ] [ drop ] }
-        [ (value-info-intersect) ]
-    } cond ;
+     2dup and [ (value-info-intersect) ] [ 2drop f ] if ;
 
 : intersect-slots ( info1 info2 -- slots )
-    [ slots>> ] bi@ {
-        { [ dup not ] [ drop ] }
-        { [ over not ] [ nip ] }
-        [
-            2dup [ length ] bi@ =
-            [ [ intersect-slot ] 2map ] [ 2drop f ] if
-        ]
-    } cond ;
+    [ slots>> ] bi@ 2dup or [ 2nip ] [
+        2dup [ length ] bi@ =
+        [ [ intersect-slot ] 2map ] [ 2drop f ] if
+    ] if* ;
 
 : (value-info-intersect) ( info1 info2 -- info )
     [ <value-info> ] 2dip
@@ -232,11 +224,7 @@ DEFER: value-info-union
 DEFER: (value-info-union)
 
 : union-slot ( info1 info2 -- info )
-    {
-        { [ dup not ] [ nip ] }
-        { [ over not ] [ drop ] }
-        [ (value-info-union) ]
-    } cond ;
+    2dup and [ (value-info-union) ] [ 2drop f ] if ;
 
 : union-slots ( info1 info2 -- slots )
     [ slots>> ] bi@
@@ -295,13 +283,25 @@ SYMBOL: value-infos
 : value-info ( value -- info )
     value-info* drop ;
 
+: (set-value-info) ( info value assoc -- )
+    [ resolve-copy ] dip last set-at ;
+
 : set-value-info ( info value -- )
-    resolve-copy value-infos get last set-at ;
+    value-infos get (set-value-info) ;
+
+: set-value-infos ( infos values -- )
+    value-infos get [ (set-value-info) ] curry 2each ;
+
+: (refine-value-info) ( info value assoc -- )
+    [ resolve-copy ] dip
+    [ assoc-stack [ value-info-intersect ] when* ] 2keep
+    last set-at ; inline
 
 : refine-value-info ( info value -- )
-    resolve-copy value-infos get
-    [ assoc-stack [ value-info-intersect ] when* ] 2keep
-    last set-at ;
+    value-infos get (refine-value-info) ;
+
+: refine-value-infos ( classes values -- )
+    value-infos get [ (refine-value-info) ] curry 2each ;
 
 : value-literal ( value -- obj ? )
     value-info >literal< ;

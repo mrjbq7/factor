@@ -15,7 +15,7 @@ TUPLE: call-site tail? node label ;
 TUPLE: call-graph-node tail? label children calls ;
 
 : (tail-calls) ( tail? seq -- seq' )
-    reverse [ swap [ and ] keep ] map nip reverse ;
+    reverse! [ swap [ and ] keep ] map! nip reverse! ;
 
 : tail-calls ( tail? node -- seq )
     [
@@ -88,7 +88,7 @@ SYMBOL: changed?
     label>> dup not-a-loop? [ drop ] [
         recursive-nesting get <reversed> [
             2dup label>> eq? [ 2drop f ] [
-                [ label>> not-a-loop? ] [ tail?>> not ] bi or
+                { [ label>> not-a-loop? ] [ tail?>> not ] } 1||
                 [ not-a-loop changed? on ] [ drop ] if t
             ] if
         ] with all? drop

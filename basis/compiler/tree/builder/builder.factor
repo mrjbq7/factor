@@ -1,7 +1,8 @@
 ! Copyright (C) 2008, 2009 Slava Pestov.
 ! See http://factorcode.org/license.txt for BSD license.
 USING: fry locals accessors quotations kernel sequences namespaces
-assocs words arrays vectors hints combinators continuations
+assocs words arrays vectors hints combinators combinators.short-circuit
+continuations
 effects compiler.tree
 stack-checker
 stack-checker.state
@@ -21,7 +22,7 @@ M: callable (build-tree) infer-quot-here ;
     dup "no-compile" word-prop [ do-not-compile ] [ drop ] if ;
 
 : inline-recursive? ( word -- ? )
-    [ "inline" word-prop ] [ "recursive" word-prop ] bi and ;
+    { [ "inline" word-prop ] [ "recursive" word-prop ] } 1&& ;
 
 : word-body ( word -- quot )
     dup inline-recursive? [ 1quotation ] [ specialized-def ] if ;

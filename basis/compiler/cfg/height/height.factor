@@ -1,6 +1,7 @@
 ! Copyright (C) 2008, 2010 Slava Pestov.
 ! See http://factorcode.org/license.txt for BSD license.
-USING: accessors math namespaces sequences kernel fry
+USING: accessors combinators.short-circuit math namespaces
+sequences kernel fry
 compiler.cfg compiler.cfg.registers compiler.cfg.instructions
 compiler.cfg.rpo ;
 IN: compiler.cfg.height
@@ -46,7 +47,7 @@ M: insn visit-insn drop ;
     init-height
     [ <reversed> [ visit-insn ] each ]
     [
-        [ [ ##inc-d? ] [ ##inc-r? ] bi or not ] filter!
+        [ { [ ##inc-d? ] [ ##inc-r? ] } 1|| not ] filter!
         ds-height get [ ##inc-d new-insn prefix ] unless-zero
         rs-height get [ ##inc-r new-insn prefix ] unless-zero
     ] bi ;

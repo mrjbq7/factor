@@ -139,8 +139,10 @@ GENERIC: already-inlined-quot? ( quot -- ? )
 M: curry already-inlined-quot? quot>> already-inlined-quot? ;
 
 M: compose already-inlined-quot?
-    [ first>> already-inlined-quot? ]
-    [ second>> already-inlined-quot? ] bi or ;
+    {
+        [ first>> already-inlined-quot? ]
+        [ second>> already-inlined-quot? ]
+    } 1|| ;
 
 M: quotation already-inlined-quot? already-inlined? ;
 

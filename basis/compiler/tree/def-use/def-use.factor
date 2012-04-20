@@ -22,21 +22,33 @@ TUPLE: definition value node uses ;
 
 ERROR: no-def-error value ;
 
+: (def-of) ( value assoc -- definition )
+    ?at [ no-def-error ] unless ; inline
+
 : def-of ( value -- definition )
-    def-use get ?at [ no-def-error ] unless ;
+    def-use get (def-of) ;
 
 ERROR: multiple-defs-error ;
 
-: def-value ( node value -- )
-    def-use get 2dup key? [
+: (def-value) ( node value assoc -- )
+    2dup key? [
         multiple-defs-error
     ] [
         [ [ <definition> ] keep ] dip set-at
     ] if ;
 
+: def-value ( node value -- )
+    def-use get (def-value) ;
+
+: def-values ( node values -- )
+    def-use get [ (def-value) ] curry with each ;
+
 : used-by ( value -- nodes ) def-of uses>> ;
 
 : use-value ( node value -- ) used-by push ;
+
+: use-values ( node values -- )
+    def-use get [ (def-of) uses>> push ] curry with each ;
 
 : defined-by ( value -- node ) def-of node>> ;
 
@@ -63,8 +75,8 @@ M: #alien-callback node-defs-values drop f ;
 M: node node-defs-values out-d>> ;
 
 : node-def-use ( node -- )
-    [ dup node-uses-values [ use-value ] with each ]
-    [ dup node-defs-values [ def-value ] with each ] bi ;
+    [ dup node-uses-values use-values ]
+    [ dup node-defs-values def-values ] bi ;
 
 : compute-def-use ( node -- node )
     H{ } clone def-use set

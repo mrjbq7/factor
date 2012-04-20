@@ -29,7 +29,7 @@ ERROR: bad-live-ranges interval ;
     2bi ;
 
 : last-use-rep ( live-interval -- rep/f )
-    last-use [ def-rep>> ] [ use-rep>> ] bi or ; inline
+    last-use { [ def-rep>> ] [ use-rep>> ] } 1|| ; inline
 
 : assign-spill ( live-interval -- )
     dup last-use-rep dup [

@@ -4,7 +4,8 @@ USING: words assocs definitions io io.pathnames io.styles kernel
 prettyprint sorting see sets sequences arrays hashtables help
 help.crossref help.topics help.markup quotations accessors
 source-files namespaces graphs vocabs generic generic.single
-threads compiler.units init combinators.smart ;
+threads compiler.units init combinators.smart
+combinators.short-circuit ;
 IN: tools.crossref
 
 SYMBOL: crossref
@@ -119,7 +120,7 @@ M: f smart-usage drop \ f smart-usage ;
 : vocab-xref ( vocab quot: ( defspec -- seq ) -- vocabs )
     [ [ vocab-name ] [ words [ generic? not ] filter ] bi ] dip map
     [
-        [ [ word? ] [ generic? not ] bi and ] filter [
+        [ { [ word? ] [ generic? not ] } 1&& ] filter [
             dup method?
             [ "method-generic" word-prop ] when
             vocabulary>>

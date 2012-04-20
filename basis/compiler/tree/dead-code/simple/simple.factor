@@ -2,7 +2,7 @@
 ! See http://factorcode.org/license.txt for BSD license.
 USING: kernel accessors words assocs sequences arrays namespaces
 fry locals definitions classes classes.algebra generic math
-combinators math.private
+combinators combinators.short-circuit math.private
 stack-checker.dependencies
 stack-checker.backend
 compiler.tree
@@ -138,7 +138,7 @@ M: #shuffle remove-dead-code*
     [ filter-live ] change-in-r
     [ filter-live ] change-out-r
     [ filter-mapping ] change-mapping
-    dup [ in-d>> empty? ] [ in-r>> empty? ] bi and [ drop f ] when ;
+    dup { [ in-d>> empty? ] [ in-r>> empty? ] } 1&& [ drop f ] when ;
 
 M: #copy remove-dead-code*
     [ in-d>> ] [ out-d>> ] bi

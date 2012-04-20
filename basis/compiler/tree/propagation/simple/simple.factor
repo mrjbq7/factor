@@ -23,14 +23,8 @@ M: #push propagate-before
     [ literal>> <literal-info> ] [ out-d>> first ] bi
     set-value-info ;
 
-: refine-value-infos ( classes values -- )
-    [ refine-value-info ] 2each ;
-
 : class-infos ( classes -- infos )
     [ <class-info> ] map ;
-
-: set-value-infos ( infos values -- )
-    [ set-value-info ] 2each ;
 
 GENERIC: depends-on-class ( obj -- )
 
