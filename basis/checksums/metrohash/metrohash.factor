@@ -9,6 +9,12 @@ SPECIALIZED-ARRAY: uint16_t
 
 IN: checksums.metrohash
 
+FROM: math.private => integer-W+ integer-W- integer-W* integer-Wroll ;
+ALIAS: W+ integer-W+
+ALIAS: W- integer-W-
+ALIAS: W* integer-W*
+ALIAS: bitroll-64 integer-Wroll
+
 TUPLE: metrohash-64 seed ;
 
 C: <metrohash-64> metrohash-64
@@ -43,14 +49,15 @@ M:: metrohash-64 checksum-bytes ( bytes checksum -- value )
     h h h h :> ( v0! v1! v2! v3! )
 
     len 32 >= [
-        0 len/32 bytes uint64_t native-mapper 4 <groups> [
-            first4 {
-                [ k0 W* v0 W+ -29 bitroll-64 v2 W+ v0! ]
-                [ k1 W* v1 W+ -29 bitroll-64 v3 W+ v1! ]
-                [ k2 W* v2 W+ -29 bitroll-64 v0 W+ v2! ]
-                [ k3 W* v3 W+ -29 bitroll-64 v1 W+ v3! ]
-            } spread
-        ] each
+        0 len/32 bytes uint64_t native-mapper
+        dup length 4 /i <iota> [
+            {
+                [ swap nth-unsafe k0 W* v0 W+ -29 bitroll-64 v2 W+ v0! ]
+                [ 1 + swap nth-unsafe k1 W* v1 W+ -29 bitroll-64 v3 W+ v1! ]
+                [ 2 + swap nth-unsafe k2 W* v2 W+ -29 bitroll-64 v0 W+ v2! ]
+                [ 3 + swap nth-unsafe k3 W* v3 W+ -29 bitroll-64 v1 W+ v3! ]
+            } 2cleave
+        ] with each
 
         v0 v3 W+ k0 W* v1 W+ -37 bitroll-64 k1 W* v2 bitxor v2!
         v1 v2 W+ k1 W* v0 W+ -37 bitroll-64 k0 W* v3 bitxor v3!

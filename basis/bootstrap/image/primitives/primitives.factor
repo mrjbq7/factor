@@ -641,6 +641,26 @@ CONSTANT: all-primitives {
                 "float>fixnum" ( x -- y ) "float_to_fixnum"
                 { float } { fixnum } make-foldable
             }
+            {
+                "integer-W+" ( x y -- z ) "W_add"
+                { integer integer } { integer } make-foldable
+            }
+            {
+                "integer-W-" ( x y -- z ) "W_sub"
+                { integer integer } { integer } make-foldable
+            }
+            {
+                "integer-W*" ( x y -- z ) "W_mul"
+                { integer integer } { integer } make-foldable
+            }
+            {
+                "integer-Wroll" ( x y -- z ) "W_bitroll"
+                { integer integer } { integer } make-foldable
+            }
+            {
+                "integer>fixnum2" ( x -- z ) "integer_to_fixnum"
+                { integer } { fixnum } make-foldable
+            }
         }
     }
     {

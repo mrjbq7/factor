@@ -5,6 +5,10 @@
 
 namespace factor {
 
+void factor_vm::primitive_integer_to_fixnum() {
+  ctx->replace(to_fixnum(ctx->peek()));
+}
+
 void factor_vm::primitive_bignum_to_fixnum() {
   ctx->replace(tag_fixnum(bignum_to_fixnum(untag<bignum>(ctx->peek()))));
 }
@@ -303,6 +307,34 @@ void factor_vm::primitive_float_greater() {
 void factor_vm::primitive_float_greatereq() {
   POP_FLOATS(x, y);
   ctx->replace(tag_boolean(x >= y));
+}
+
+void factor_vm::primitive_W_add() {
+  uint64_t y = to_unsigned_8(ctx->pop());
+  uint64_t x = to_unsigned_8(ctx->peek());
+  ctx->replace(from_unsigned_8(x + y));
+}
+
+void factor_vm::primitive_W_sub() {
+  uint64_t y = to_unsigned_8(ctx->pop());
+  uint64_t x = to_unsigned_8(ctx->peek());
+  ctx->replace(from_unsigned_8(x - y));
+}
+
+void factor_vm::primitive_W_mul() {
+  uint64_t y = to_unsigned_8(ctx->pop());
+  uint64_t x = to_unsigned_8(ctx->peek());
+  ctx->replace(from_unsigned_8(x * y));
+}
+
+void factor_vm::primitive_W_bitroll() {
+  int64_t s = to_signed_8(ctx->pop());
+  uint64_t x = to_unsigned_8(ctx->peek());
+  if (s < 0) {
+    ctx->replace(from_unsigned_8((x >> -s) | (x << (64 + s))));
+  } else {
+    ctx->replace(from_unsigned_8((x << s) | (x >> (64 - s))));
+  }
 }
 
 // Allocates memory

@@ -439,6 +439,7 @@ struct factor_vm {
   void jit_compile_word(cell word_, cell def_, bool relocating);
 
   // math
+  void primitive_integer_to_fixnum();
   void primitive_bignum_to_fixnum();
   void primitive_bignum_to_fixnum_strict();
   void primitive_float_to_fixnum();
@@ -489,6 +490,10 @@ struct factor_vm {
   void primitive_bits_float();
   void primitive_double_bits();
   void primitive_bits_double();
+  void primitive_W_add();
+  void primitive_W_sub();
+  void primitive_W_mul();
+  void primitive_W_bitroll();
   fixnum to_fixnum(cell tagged);
   fixnum to_fixnum_strict(cell tagged);
   cell to_cell(cell tagged);
