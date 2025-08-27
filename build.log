@@ -1,0 +1,312 @@
+make linux-x86-64
+make[1]: Entering directory '/home/erg/factor'
+make factor-executable factor-ffi-test factor-lib CONFIG=vm/Config.linux.x86.64
+make[2]: Entering directory '/home/erg/factor'
+g++ -x c++-header -fPIC -std=c++23  -Wall -Wextra -pedantic -DFACTOR_VERSION="0.101" -DFACTOR_GIT_LABEL="heads/claude-vm-fixes-5a44f665042e9e9dffe1fe82251d3c1fa9d2eb6f" -m64 -Wcast-align -Wcast-qual -Wwrite-strings -Wconversion -Wsign-conversion -Wformat=2 -Wformat-security -Wnull-dereference -Wstack-protector -Wtrampolines -Walloca -Wvla -Warray-bounds=2 -Wimplicit-fallthrough=3 -Wshift-overflow=2 -Wstringop-overflow=4 -Wlogical-op -Wduplicated-cond -Wduplicated-branches -Wformat-signedness -Wshadow -Wstrict-overflow=4 -Wundef -Wstrict-prototypes -Wswitch-default -Wswitch-enum -Wstack-usage=8192 -Wcast-function-type -Wdouble-promotion -Woverloaded-virtual -Wsign-promo -Wstrict-null-sentinel -Wnoexcept -Wold-style-cast -Wzero-as-null-pointer-constant -Wextra-semi -Wuseless-cast  -O3 -o build/master.hpp.gch vm/master.hpp
+gcc -c -fPIC -Wl,--no-as-needed  -Wall -Wextra -pedantic -DFACTOR_VERSION="0.101" -DFACTOR_GIT_LABEL="heads/claude-vm-fixes-5a44f665042e9e9dffe1fe82251d3c1fa9d2eb6f" -Wcast-align -Wcast-qual -Wwrite-strings -Wconversion -Wsign-conversion -Wformat=2 -Wformat-security -Wnull-dereference -Wstack-protector -Wtrampolines -Walloca -Wvla -Warray-bounds=2 -Wimplicit-fallthrough=3 -Wshift-overflow=2 -Wstringop-overflow=4 -Wlogical-op -Wduplicated-cond -Wduplicated-branches -Wformat-signedness -Wshadow -Wstrict-overflow=4 -Wundef -Wstrict-prototypes -Wswitch-default -Wswitch-enum -Wstack-usage=8192 -Wcast-function-type -Wdouble-promotion  -O3 -fPIC -std=c99 -o build/ffi_test.o vm/ffi_test.c
+cc1plus: warning: command-line option ‘-Wstrict-prototypes’ is valid for C/ObjC but not for C++
+vm/ffi_test.c: In function ‘ffi_test_8’:
+vm/ffi_test.c:24:12: warning: implicit conversion from ‘float’ to ‘double’ to match other operand of binary expression [-Wdouble-promotion]
+   24 |   return x * y + z * t + w;
+      |            ^
+vm/ffi_test.c:24:20: warning: implicit conversion from ‘float’ to ‘double’ to match other operand of binary expression [-Wdouble-promotion]
+   24 |   return x * y + z * t + w;
+      |                    ^
+vm/ffi_test.c: In function ‘ffi_test_10’:
+vm/ffi_test.c:32:30: warning: implicit conversion from ‘float’ to ‘double’ to match other operand of binary expression [-Wdouble-promotion]
+   32 |   return (int)(a - b - c - d - e - f - g - h);
+      |                              ^
+vm/ffi_test.c: In function ‘ffi_test_12’:
+vm/ffi_test.c:38:22: warning: conversion from ‘int’ to ‘float’ may change value [-Wconversion]
+   38 |   return (int)(a + b + c.x + c.y + c.w + c.h + d + e + f);
+      |                      ^
+vm/ffi_test.c:38:46: warning: conversion from ‘int’ to ‘float’ may change value [-Wconversion]
+   38 |   return (int)(a + b + c.x + c.y + c.w + c.h + d + e + f);
+      |                                              ^
+vm/ffi_test.c:38:50: warning: conversion from ‘int’ to ‘float’ may change value [-Wconversion]
+   38 |   return (int)(a + b + c.x + c.y + c.w + c.h + d + e + f);
+      |                                                  ^
+vm/ffi_test.c:38:54: warning: conversion from ‘int’ to ‘float’ may change value [-Wconversion]
+   38 |   return (int)(a + b + c.x + c.y + c.w + c.h + d + e + f);
+      |                                                      ^
+vm/ffi_test.c: In function ‘ffi_test_15’:
+vm/ffi_test.c:55:12: warning: return discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
+   55 |     return "foo";
+      |            ^~~~~
+vm/ffi_test.c:57:12: warning: return discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
+   57 |     return "bar";
+      |            ^~~~~
+vm/ffi_test.c: In function ‘ffi_test_33’:
+vm/ffi_test.c:195:72: warning: conversion from ‘int’ to ‘float’ may change value [-Wconversion]
+  195 | double ffi_test_33(struct test_struct_9 x, int y) { return (x.x + x.y) * y; }
+      |                                                                        ^
+vm/ffi_test.c: In function ‘ffi_test_34’:
+vm/ffi_test.c:197:66: warning: conversion from ‘int’ to ‘float’ may change value [-Wconversion]
+  197 | double ffi_test_34(struct test_struct_10 x, int y) { return (x.x + x.y) * y; }
+      |                                                                  ^
+vm/ffi_test.c:197:73: warning: conversion from ‘int’ to ‘float’ may change value [-Wconversion]
+  197 | double ffi_test_34(struct test_struct_10 x, int y) { return (x.x + x.y) * y; }
+      |                                                                         ^
+vm/ffi_test.c: In function ‘ffi_test_47’:
+vm/ffi_test.c:264:12: warning: implicit conversion from ‘complex float’ to ‘complex double’ to match other operand of binary expression [-Wdouble-promotion]
+  264 |   return x + 2 * y;
+      |            ^
+vm/ffi_test.c:264:12: warning: conversion from ‘complex double’ to ‘complex float’ may change value [-Wfloat-conversion]
+  264 |   return x + 2 * y;
+      |          ~~^~~~~~~
+vm/ffi_test.c: In function ‘ffi_test_52’:
+vm/ffi_test.c:278:18: warning: conversion from ‘int’ to ‘float’ may change value [-Wconversion]
+  278 |   return (int)(x + y + z + 1);
+      |                  ^
+vm/ffi_test.c:278:22: warning: conversion from ‘int’ to ‘float’ may change value [-Wconversion]
+  278 |   return (int)(x + y + z + 1);
+      |                      ^
+vm/ffi_test.c: In function ‘ffi_test_53’:
+vm/ffi_test.c:282:18: warning: conversion from ‘int’ to ‘float’ may change value [-Wconversion]
+  282 |   return (int)(x + y + z + w + 1);
+      |                  ^
+vm/ffi_test.c:282:22: warning: conversion from ‘int’ to ‘float’ may change value [-Wconversion]
+  282 |   return (int)(x + y + z + w + 1);
+      |                      ^
+vm/ffi_test.c:282:26: warning: conversion from ‘int’ to ‘float’ may change value [-Wconversion]
+  282 |   return (int)(x + y + z + w + 1);
+      |                          ^
+vm/ffi_test.c: In function ‘ffi_test_69’:
+vm/ffi_test.c:390:37: warning: conversion to ‘long unsigned int’ from ‘long int’ may change the sign of the result [-Wsign-conversion]
+  390 |     x = a + b + c + d.mem1 + d.mem2 + (long)e.mem1 + e.mem2 + e.mem3 + f.mem1 + f.mem2;
+      |                                     ^
+vm/ffi_test.c: In function ‘bug1021_test_1’:
+vm/ffi_test.c:402:24: warning: conversion to ‘long unsigned int’ from ‘int’ may change the sign of the result [-Wsign-conversion]
+  402 |   return (void*)(y * y + (size_t)x);
+      |                        ^
+gcc -fPIC -Wl,--no-as-needed  -Wall -Wextra -pedantic -DFACTOR_VERSION="0.101" -DFACTOR_GIT_LABEL="heads/claude-vm-fixes-5a44f665042e9e9dffe1fe82251d3c1fa9d2eb6f" -Wcast-align -Wcast-qual -Wwrite-strings -Wconversion -Wsign-conversion -Wformat=2 -Wformat-security -Wnull-dereference -Wstack-protector -Wtrampolines -Walloca -Wvla -Warray-bounds=2 -Wimplicit-fallthrough=3 -Wshift-overflow=2 -Wstringop-overflow=4 -Wlogical-op -Wduplicated-cond -Wduplicated-branches -Wformat-signedness -Wshadow -Wstrict-overflow=4 -Wundef -Wstrict-prototypes -Wswitch-default -Wswitch-enum -Wstack-usage=8192 -Wcast-function-type -Wdouble-promotion  -O3 -fPIC -shared -o libfactor-ffi-test.so build/ffi_test.o
+In file included from vm/master.hpp:102:
+vm/layouts.hpp: In function ‘bool factor::immediate_p(cell)’:
+vm/layouts.hpp:19:25: warning: use of old-style cast to ‘factor::cell’ {aka ‘long unsigned int’} [-Wold-style-cast]
+   19 | #define TAG(x) ((cell)(x) & TAG_MASK)
+      |                         ^
+vm/layouts.hpp:89:10: note: in expansion of macro ‘TAG’
+   89 |   return TAG(obj) <= F_TYPE;
+      |          ^~~
+vm/layouts.hpp: In function ‘factor::fixnum factor::untag_fixnum(cell)’:
+vm/layouts.hpp:94:19: warning: use of old-style cast to ‘factor::fixnum’ {aka ‘long int’} [-Wold-style-cast]
+   94 |   return ((fixnum)tagged) >> TAG_BITS;
+      |                   ^~~~~~
+      |           --------------
+      |           static_cast<fixnum> (tagged)
+vm/layouts.hpp: In function ‘factor::cell factor::tag_fixnum(fixnum)’:
+vm/layouts.hpp:98:18: warning: use of old-style cast to ‘factor::cell’ {aka ‘long unsigned int’} [-Wold-style-cast]
+   98 |   return ( (cell)untagged << TAG_BITS) | FIXNUM_TYPE;
+      |                  ^~~~~~~~
+      |            --------------
+      |            static_cast<cell> (untagged)
+vm/layouts.hpp: In member function ‘factor::cell* factor::object::slots() const’:
+vm/layouts.hpp:122:39: warning: use of old-style cast to ‘factor::cell*’ {aka ‘long unsigned int*’} [-Wold-style-cast]
+  122 |   cell* slots() const { return (cell*)this; }
+      |                                       ^~~~
+vm/layouts.hpp:122:32: warning: cast from type ‘const factor::object*’ to type ‘factor::cell*’ {aka ‘long unsigned int*’} casts away qualifiers [-Wcast-qual]
+  122 |   cell* slots() const { return (cell*)this; }
+      |                                ^~~~~~~~~~~
+vm/layouts.hpp: In member function ‘factor::object* factor::object::forwarding_pointer() const’:
+vm/layouts.hpp:20:27: warning: use of old-style cast to ‘factor::cell’ {aka ‘long unsigned int’} [-Wold-style-cast]
+   20 | #define UNTAG(x) ((cell)(x) & ~TAG_MASK)
+      |                           ^
+vm/layouts.hpp:142:56: note: in expansion of macro ‘UNTAG’
+  142 |   object* forwarding_pointer() const { return (object*)UNTAG(header); }
+      |                                                        ^~~~~
+vm/layouts.hpp:20:31: warning: unsigned conversion from ‘int’ to ‘factor::cell’ {aka ‘long unsigned int’} changes value from ‘-16’ to ‘18446744073709551600’ [-Wsign-conversion]
+   20 | #define UNTAG(x) ((cell)(x) & ~TAG_MASK)
+      |                               ^
+vm/layouts.hpp:142:56: note: in expansion of macro ‘UNTAG’
+  142 |   object* forwarding_pointer() const { return (object*)UNTAG(header); }
+      |                                                        ^~~~~
+vm/layouts.hpp:20:40: warning: use of old-style cast to ‘struct factor::object*’ [-Wold-style-cast]
+   20 | #define UNTAG(x) ((cell)(x) & ~TAG_MASK)
+      |                                        ^
+vm/layouts.hpp:142:56: note: in expansion of macro ‘UNTAG’
+  142 |   object* forwarding_pointer() const { return (object*)UNTAG(header); }
+      |                                                        ^~~~~
+vm/layouts.hpp: In member function ‘void factor::object::forward_to(factor::object*)’:
+vm/layouts.hpp:144:54: warning: use of old-style cast to ‘factor::cell’ {aka ‘long unsigned int’} [-Wold-style-cast]
+  144 |   void forward_to(object* pointer) { header = ((cell)pointer | 2); }
+      |                                                      ^~~~~~~
+      |                                                -------------
+      |                                                reinterpret_cast<cell> (pointer)
+vm/layouts.hpp: In member function ‘factor::cell* factor::array::data() const’:
+vm/layouts.hpp:154:47: warning: use of old-style cast to ‘factor::cell*’ {aka ‘long unsigned int*’} [-Wold-style-cast]
+  154 |   cell* data() const { return (cell*)(this + 1); }
+      |                                               ^
+vm/layouts.hpp:154:31: warning: cast from type ‘const factor::array*’ to type ‘factor::cell*’ {aka ‘long unsigned int*’} casts away qualifiers [-Wcast-qual]
+  154 |   cell* data() const { return (cell*)(this + 1); }
+      |                               ^~~~~~~~~~~~~~~~~
+vm/layouts.hpp: In member function ‘factor::cell* factor::bignum::data() const’:
+vm/layouts.hpp:175:47: warning: use of old-style cast to ‘factor::cell*’ {aka ‘long unsigned int*’} [-Wold-style-cast]
+  175 |   cell* data() const { return (cell*)(this + 1); }
+      |                                               ^
+vm/layouts.hpp:175:31: warning: cast from type ‘const factor::bignum*’ to type ‘factor::cell*’ {aka ‘long unsigned int*’} casts away qualifiers [-Wcast-qual]
+  175 |   cell* data() const { return (cell*)(this + 1); }
+      |                               ^~~~~~~~~~~~~~~~~
+vm/layouts.hpp: In member function ‘Scalar* factor::byte_array::data() const’:
+vm/layouts.hpp:190:30: warning: use of old-style cast to ‘Scalar*’ [-Wold-style-cast]
+  190 |     return (Scalar*)(this + 1);
+      |                              ^
+vm/layouts.hpp: In member function ‘uint8_t* factor::string::data() const’:
+vm/layouts.hpp:204:53: warning: use of old-style cast to ‘uint8_t*’ {aka ‘unsigned char*’} [-Wold-style-cast]
+  204 |   uint8_t* data() const { return (uint8_t*)(this + 1); }
+      |                                                     ^
+vm/layouts.hpp:204:34: warning: cast from type ‘const factor::string*’ to type ‘uint8_t*’ {aka ‘unsigned char*’} casts away qualifiers [-Wcast-qual]
+  204 |   uint8_t* data() const { return (uint8_t*)(this + 1); }
+      |                                  ^~~~~~~~~~~~~~~~~~~~
+vm/layouts.hpp: In member function ‘void factor::alien::update_address()’:
+vm/layouts.hpp:20:27: warning: use of old-style cast to ‘factor::cell’ {aka ‘long unsigned int’} [-Wold-style-cast]
+   20 | #define UNTAG(x) ((cell)(x) & ~TAG_MASK)
+      |                           ^
+vm/layouts.hpp:296:17: note: in expansion of macro ‘UNTAG’
+  296 |       address = UNTAG(base) + sizeof(byte_array) + displacement;
+      |                 ^~~~~
+vm/layouts.hpp:20:31: warning: unsigned conversion from ‘int’ to ‘factor::cell’ {aka ‘long unsigned int’} changes value from ‘-16’ to ‘18446744073709551600’ [-Wsign-conversion]
+   20 | #define UNTAG(x) ((cell)(x) & ~TAG_MASK)
+      |                               ^
+vm/layouts.hpp:296:17: note: in expansion of macro ‘UNTAG’
+  296 |       address = UNTAG(base) + sizeof(byte_array) + displacement;
+      |                 ^~~~~
+vm/layouts.hpp: In member function ‘factor::cell factor::callstack::frame_top_at(factor::cell) const’:
+vm/layouts.hpp:314:27: warning: use of old-style cast to ‘factor::cell’ {aka ‘long unsigned int’} [-Wold-style-cast]
+  314 |     return (cell)(this + 1) + offset;
+      |                           ^
+      |            ----------------
+      |            reinterpret_cast<cell> ((this + 1))
+vm/layouts.hpp: In member function ‘factor::cell factor::callstack::top() const’:
+vm/layouts.hpp:317:44: warning: use of old-style cast to ‘factor::cell’ {aka ‘long unsigned int’} [-Wold-style-cast]
+  317 |   cell top() const { return (cell)(this + 1); }
+      |                                            ^
+      |                             ----------------
+      |                             reinterpret_cast<cell> ((this + 1))
+vm/layouts.hpp: In member function ‘factor::cell factor::callstack::bottom() const’:
+vm/layouts.hpp:319:27: warning: use of old-style cast to ‘factor::cell’ {aka ‘long unsigned int’} [-Wold-style-cast]
+  319 |     return (cell)(this + 1) + untag_fixnum(length);
+      |                           ^
+      |            ----------------
+      |            reinterpret_cast<cell> ((this + 1))
+vm/layouts.hpp:319:43: warning: conversion to ‘long unsigned int’ from ‘factor::fixnum’ {aka ‘long int’} may change the sign of the result [-Wsign-conversion]
+  319 |     return (cell)(this + 1) + untag_fixnum(length);
+      |                               ~~~~~~~~~~~~^~~~~~~~
+vm/layouts.hpp: In member function ‘factor::cell* factor::tuple::data() const’:
+vm/layouts.hpp:328:47: warning: use of old-style cast to ‘factor::cell*’ {aka ‘long unsigned int*’} [-Wold-style-cast]
+  328 |   cell* data() const { return (cell*)(this + 1); }
+      |                                               ^
+vm/layouts.hpp:328:31: warning: cast from type ‘const factor::tuple*’ to type ‘factor::cell*’ {aka ‘long unsigned int*’} casts away qualifiers [-Wcast-qual]
+  328 |   cell* data() const { return (cell*)(this + 1); }
+      |                               ^~~~~~~~~~~~~~~~~
+vm/layouts.hpp: In function ‘factor::cell factor::tuple_capacity(const tuple_layout*)’:
+vm/layouts.hpp:332:22: warning: conversion to ‘factor::cell’ {aka ‘long unsigned int’} from ‘factor::fixnum’ {aka ‘long int’} may change the sign of the result [-Wsign-conversion]
+  332 |   return untag_fixnum(layout->size);
+      |          ~~~~~~~~~~~~^~~~~~~~~~~~~~
+vm/layouts.hpp: In function ‘factor::cell factor::string_capacity(const string*)’:
+vm/layouts.hpp:340:22: warning: conversion to ‘factor::cell’ {aka ‘long unsigned int’} from ‘factor::fixnum’ {aka ‘long int’} may change the sign of the result [-Wsign-conversion]
+  340 |   return untag_fixnum(str->length);
+      |          ~~~~~~~~~~~~^~~~~~~~~~~~~
+In file included from vm/platform.hpp:56,
+                 from vm/master.hpp:103:
+vm/os-linux-x86.64.hpp: In function ‘unsigned int factor::uap_fpu_status(void*)’:
+vm/os-linux-x86.64.hpp:6:39: warning: use of old-style cast to ‘ucontext_t*’ {aka ‘struct ucontext_t*’} [-Wold-style-cast]
+    6 |   ucontext_t* ucontext = (ucontext_t*)uap;
+      |                                       ^~~
+      |                          -
+      |                          static_cast<-
+      |                                      > ( )
+vm/os-linux-x86.64.hpp: In function ‘void factor::uap_clear_fpu_status(void*)’:
+vm/os-linux-x86.64.hpp:12:39: warning: use of old-style cast to ‘ucontext_t*’ {aka ‘struct ucontext_t*’} [-Wold-style-cast]
+   12 |   ucontext_t* ucontext = (ucontext_t*)uap;
+      |                                       ^~~
+      |                          -
+      |                          static_cast<-
+      |                                      > ( )
+In file included from vm/platform.hpp:69:
+vm/cpu-x86.hpp: In function ‘unsigned char factor::call_site_opcode(cell)’:
+vm/cpu-x86.hpp:24:46: warning: use of old-style cast to ‘unsigned char*’ [-Wold-style-cast]
+   24 |   return *(unsigned char*)(return_address - 5);
+      |                                              ^
+      |           ----------------
+      |           reinterpret_cast<unsigned char*> (  )
+vm/cpu-x86.hpp: In function ‘void* factor::get_call_target(cell)’:
+vm/cpu-x86.hpp:36:45: warning: use of old-style cast to ‘void*’ [-Wold-style-cast]
+   36 |   memcpy(&offset, (void*)(return_address - 4), sizeof(int32_t));
+      |                                             ^
+      |                   -------
+      |                   reinterpret_cast<void*> (  )
+vm/cpu-x86.hpp:37:18: warning: conversion to ‘factor::cell’ {aka ‘long unsigned int’} from ‘int32_t’ {aka ‘int’} may change the sign of the result [-Wsign-conversion]
+   37 |   return (void*)(offset + return_address);
+      |                  ^~~~~~
+vm/cpu-x86.hpp:37:41: warning: use of old-style cast to ‘void*’ [-Wold-style-cast]
+   37 |   return (void*)(offset + return_address);
+      |                                         ^
+      |          -------
+      |          reinterpret_cast<void*> (       )
+vm/cpu-x86.hpp: In function ‘void factor::set_call_target(cell, cell)’:
+vm/cpu-x86.hpp:42:53: warning: use of old-style cast to ‘int32_t’ {aka ‘int’} [-Wold-style-cast]
+   42 |   int32_t offset = (int32_t)(target - return_address);
+      |                                                     ^
+      |                    ---------
+      |                    static_cast<int32_t> (            )
+vm/cpu-x86.hpp:43:36: warning: use of old-style cast to ‘void*’ [-Wold-style-cast]
+   43 |   memcpy((void*)(return_address - 4), &offset, sizeof(int32_t));
+      |                                    ^
+      |          -------
+      |          reinterpret_cast<void*> (  )
+In file included from vm/master.hpp:104:
+vm/utilities.hpp: In function ‘void factor::memset_2(void*, uint16_t, size_t)’:
+vm/utilities.hpp:18:34: warning: use of old-style cast to ‘uint16_t*’ {aka ‘short unsigned int*’} [-Wold-style-cast]
+   18 |     uint16_t* start = (uint16_t*)dst;
+      |                                  ^~~
+      |                       --------------
+      |                       static_cast<uint16_t*> (dst)
+vm/utilities.hpp:19:39: warning: use of old-style cast to ‘factor::cell’ {aka ‘long unsigned int’} [-Wold-style-cast]
+   19 |     uint16_t* end = (uint16_t*)((cell)dst + size);
+      |                                       ^~~
+      |                                 ---------
+      |                                 reinterpret_cast<cell> (dst)
+vm/utilities.hpp:19:49: warning: use of old-style cast to ‘uint16_t*’ {aka ‘short unsigned int*’} [-Wold-style-cast]
+   19 |     uint16_t* end = (uint16_t*)((cell)dst + size);
+      |                                                 ^
+      |                     -----------
+      |                     reinterpret_cast<uint16_t*> ()
+vm/utilities.hpp: In function ‘void factor::memset_cell(void*, cell, size_t)’:
+vm/utilities.hpp:39:26: warning: use of old-style cast to ‘factor::cell*’ {aka ‘long unsigned int*’} [-Wold-style-cast]
+   39 |     cell* start = (cell*)dst;
+      |                          ^~~
+      |                   ----------
+      |                   static_cast<cell*> (dst)
+vm/utilities.hpp:40:31: warning: use of old-style cast to ‘factor::cell’ {aka ‘long unsigned int’} [-Wold-style-cast]
+   40 |     cell* end = (cell*)((cell)dst + size);
+      |                               ^~~
+      |                         ---------
+      |                         reinterpret_cast<cell> (dst)
+vm/utilities.hpp:40:41: warning: use of old-style cast to ‘factor::cell*’ {aka ‘long unsigned int*’} [-Wold-style-cast]
+   40 |     cell* end = (cell*)((cell)dst + size);
+      |                                         ^
+      |                 -------
+      |                 reinterpret_cast<cell*> ()
+In file included from vm/master.hpp:107:
+vm/segments.hpp: In function ‘factor::cell factor::align_page(cell)’:
+vm/segments.hpp:3:61: warning: conversion to ‘factor::cell’ {aka ‘long unsigned int’} from ‘int’ may change the sign of the result [-Wsign-conversion]
+    3 | inline cell align_page(cell a) { return align(a, getpagesize()); }
+      |                                                  ~~~~~~~~~~~^~
+vm/segments.hpp: In member function ‘bool factor::segment::underflow_p(factor::cell)’:
+vm/segments.hpp:39:40: warning: conversion to ‘factor::cell’ {aka ‘long unsigned int’} from ‘int’ may change the sign of the result [-Wsign-conversion]
+   39 |     return addr >= (start - getpagesize()) && addr < start;
+      |                             ~~~~~~~~~~~^~
+vm/segments.hpp: In member function ‘bool factor::segment::overflow_p(factor::cell)’:
+vm/segments.hpp:43:52: warning: conversion to ‘factor::cell’ {aka ‘long unsigned int’} from ‘int’ may change the sign of the result [-Wsign-conversion]
+   43 |     return addr >= end && addr < (end + getpagesize());
+      |                                         ~~~~~~~~~~~^~
+vm/segments.hpp: In member function ‘void factor::segment::set_border_locked(bool)’:
+vm/segments.hpp:52:23: warning: conversion to ‘factor::cell’ {aka ‘long unsigned int’} from ‘int’ may change the sign of the result [-Wsign-conversion]
+   52 |     cell lo = start - pagesize;
+      |                       ^~~~~~~~
+vm/segments.hpp:53:32: warning: conversion to ‘factor::cell’ {aka ‘long unsigned int’} from ‘int’ may change the sign of the result [-Wsign-conversion]
+   53 |     if (!set_memory_locked(lo, pagesize, locked)) {
+      |                                ^~~~~~~~
+vm/segments.hpp:58:32: warning: conversion to ‘factor::cell’ {aka ‘long unsigned int’} from ‘int’ may change the sign of the result [-Wsign-conversion]
+   58 |     if (!set_memory_locked(hi, pagesize, locked)) {
+      |                                ^~~~~~~~

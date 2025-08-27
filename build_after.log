@@ -1,0 +1,672 @@
+make linux-x86-64
+make[1]: Entering directory '/home/erg/factor'
+make factor-executable factor-ffi-test factor-lib CONFIG=vm/Config.linux.x86.64
+make[2]: Entering directory '/home/erg/factor'
+g++ -x c++-header -fPIC -std=c++23  -Wall -Wextra -pedantic -DFACTOR_VERSION="0.101" -DFACTOR_GIT_LABEL="heads/claude-vm-fixes-5a44f665042e9e9dffe1fe82251d3c1fa9d2eb6f" -m64 -Wcast-align -Wcast-qual -Wwrite-strings -Wconversion -Wsign-conversion -Wformat=2 -Wformat-security -Wnull-dereference -Wstack-protector -Wtrampolines -Walloca -Wvla -Warray-bounds=2 -Wimplicit-fallthrough=3 -Wshift-overflow=2 -Wstringop-overflow=4 -Wlogical-op -Wduplicated-cond -Wduplicated-branches -Wformat-signedness -Wshadow -Wstrict-overflow=4 -Wundef -Wstrict-prototypes -Wswitch-default -Wswitch-enum -Wstack-usage=8192 -Wcast-function-type -Wdouble-promotion -Woverloaded-virtual -Wsign-promo -Wstrict-null-sentinel -Wnoexcept -Wold-style-cast -Wzero-as-null-pointer-constant -Wextra-semi -Wuseless-cast  -O3 -o build/master.hpp.gch vm/master.hpp
+gcc -c -fPIC -Wl,--no-as-needed  -Wall -Wextra -pedantic -DFACTOR_VERSION="0.101" -DFACTOR_GIT_LABEL="heads/claude-vm-fixes-5a44f665042e9e9dffe1fe82251d3c1fa9d2eb6f" -Wcast-align -Wcast-qual -Wwrite-strings -Wconversion -Wsign-conversion -Wformat=2 -Wformat-security -Wnull-dereference -Wstack-protector -Wtrampolines -Walloca -Wvla -Warray-bounds=2 -Wimplicit-fallthrough=3 -Wshift-overflow=2 -Wstringop-overflow=4 -Wlogical-op -Wduplicated-cond -Wduplicated-branches -Wformat-signedness -Wshadow -Wstrict-overflow=4 -Wundef -Wstrict-prototypes -Wswitch-default -Wswitch-enum -Wstack-usage=8192 -Wcast-function-type -Wdouble-promotion  -O3 -fPIC -std=c99 -o build/ffi_test.o vm/ffi_test.c
+cc1plus: warning: command-line option ‘-Wstrict-prototypes’ is valid for C/ObjC but not for C++
+vm/ffi_test.c: In function ‘ffi_test_8’:
+vm/ffi_test.c:24:12: warning: implicit conversion from ‘float’ to ‘double’ to match other operand of binary expression [-Wdouble-promotion]
+   24 |   return x * y + z * t + w;
+      |            ^
+vm/ffi_test.c:24:20: warning: implicit conversion from ‘float’ to ‘double’ to match other operand of binary expression [-Wdouble-promotion]
+   24 |   return x * y + z * t + w;
+      |                    ^
+vm/ffi_test.c: In function ‘ffi_test_10’:
+vm/ffi_test.c:32:30: warning: implicit conversion from ‘float’ to ‘double’ to match other operand of binary expression [-Wdouble-promotion]
+   32 |   return (int)(a - b - c - d - e - f - g - h);
+      |                              ^
+vm/ffi_test.c: In function ‘ffi_test_12’:
+vm/ffi_test.c:38:22: warning: conversion from ‘int’ to ‘float’ may change value [-Wconversion]
+   38 |   return (int)(a + b + c.x + c.y + c.w + c.h + d + e + f);
+      |                      ^
+vm/ffi_test.c:38:46: warning: conversion from ‘int’ to ‘float’ may change value [-Wconversion]
+   38 |   return (int)(a + b + c.x + c.y + c.w + c.h + d + e + f);
+      |                                              ^
+vm/ffi_test.c:38:50: warning: conversion from ‘int’ to ‘float’ may change value [-Wconversion]
+   38 |   return (int)(a + b + c.x + c.y + c.w + c.h + d + e + f);
+      |                                                  ^
+vm/ffi_test.c:38:54: warning: conversion from ‘int’ to ‘float’ may change value [-Wconversion]
+   38 |   return (int)(a + b + c.x + c.y + c.w + c.h + d + e + f);
+      |                                                      ^
+vm/ffi_test.c: In function ‘ffi_test_15’:
+vm/ffi_test.c:55:12: warning: return discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
+   55 |     return "foo";
+      |            ^~~~~
+vm/ffi_test.c:57:12: warning: return discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
+   57 |     return "bar";
+      |            ^~~~~
+vm/ffi_test.c: In function ‘ffi_test_33’:
+vm/ffi_test.c:195:72: warning: conversion from ‘int’ to ‘float’ may change value [-Wconversion]
+  195 | double ffi_test_33(struct test_struct_9 x, int y) { return (x.x + x.y) * y; }
+      |                                                                        ^
+vm/ffi_test.c: In function ‘ffi_test_34’:
+vm/ffi_test.c:197:66: warning: conversion from ‘int’ to ‘float’ may change value [-Wconversion]
+  197 | double ffi_test_34(struct test_struct_10 x, int y) { return (x.x + x.y) * y; }
+      |                                                                  ^
+vm/ffi_test.c:197:73: warning: conversion from ‘int’ to ‘float’ may change value [-Wconversion]
+  197 | double ffi_test_34(struct test_struct_10 x, int y) { return (x.x + x.y) * y; }
+      |                                                                         ^
+vm/ffi_test.c: In function ‘ffi_test_47’:
+vm/ffi_test.c:264:12: warning: implicit conversion from ‘complex float’ to ‘complex double’ to match other operand of binary expression [-Wdouble-promotion]
+  264 |   return x + 2 * y;
+      |            ^
+vm/ffi_test.c:264:12: warning: conversion from ‘complex double’ to ‘complex float’ may change value [-Wfloat-conversion]
+  264 |   return x + 2 * y;
+      |          ~~^~~~~~~
+vm/ffi_test.c: In function ‘ffi_test_52’:
+vm/ffi_test.c:278:18: warning: conversion from ‘int’ to ‘float’ may change value [-Wconversion]
+  278 |   return (int)(x + y + z + 1);
+      |                  ^
+vm/ffi_test.c:278:22: warning: conversion from ‘int’ to ‘float’ may change value [-Wconversion]
+  278 |   return (int)(x + y + z + 1);
+      |                      ^
+vm/ffi_test.c: In function ‘ffi_test_53’:
+vm/ffi_test.c:282:18: warning: conversion from ‘int’ to ‘float’ may change value [-Wconversion]
+  282 |   return (int)(x + y + z + w + 1);
+      |                  ^
+vm/ffi_test.c:282:22: warning: conversion from ‘int’ to ‘float’ may change value [-Wconversion]
+  282 |   return (int)(x + y + z + w + 1);
+      |                      ^
+vm/ffi_test.c:282:26: warning: conversion from ‘int’ to ‘float’ may change value [-Wconversion]
+  282 |   return (int)(x + y + z + w + 1);
+      |                          ^
+vm/ffi_test.c: In function ‘ffi_test_69’:
+vm/ffi_test.c:390:37: warning: conversion to ‘long unsigned int’ from ‘long int’ may change the sign of the result [-Wsign-conversion]
+  390 |     x = a + b + c + d.mem1 + d.mem2 + (long)e.mem1 + e.mem2 + e.mem3 + f.mem1 + f.mem2;
+      |                                     ^
+vm/ffi_test.c: In function ‘bug1021_test_1’:
+vm/ffi_test.c:402:24: warning: conversion to ‘long unsigned int’ from ‘int’ may change the sign of the result [-Wsign-conversion]
+  402 |   return (void*)(y * y + (size_t)x);
+      |                        ^
+gcc -fPIC -Wl,--no-as-needed  -Wall -Wextra -pedantic -DFACTOR_VERSION="0.101" -DFACTOR_GIT_LABEL="heads/claude-vm-fixes-5a44f665042e9e9dffe1fe82251d3c1fa9d2eb6f" -Wcast-align -Wcast-qual -Wwrite-strings -Wconversion -Wsign-conversion -Wformat=2 -Wformat-security -Wnull-dereference -Wstack-protector -Wtrampolines -Walloca -Wvla -Warray-bounds=2 -Wimplicit-fallthrough=3 -Wshift-overflow=2 -Wstringop-overflow=4 -Wlogical-op -Wduplicated-cond -Wduplicated-branches -Wformat-signedness -Wshadow -Wstrict-overflow=4 -Wundef -Wstrict-prototypes -Wswitch-default -Wswitch-enum -Wstack-usage=8192 -Wcast-function-type -Wdouble-promotion  -O3 -fPIC -shared -o libfactor-ffi-test.so build/ffi_test.o
+In file included from vm/master.hpp:108:
+vm/gc_info.hpp: In member function ‘uint32_t* factor::gc_info::return_addresses()’:
+vm/gc_info.hpp:22:23: warning: use of old-style cast to ‘uint32_t*’ {aka ‘unsigned int*’} [-Wold-style-cast]
+   22 |     return (uint32_t*)this - return_address_count;
+      |                       ^~~~
+      |            ---------------
+      |            reinterpret_cast<uint32_t*> (this)
+vm/gc_info.hpp: In member function ‘uint8_t* factor::gc_info::gc_info_bitmap()’:
+vm/gc_info.hpp:30:39: warning: use of old-style cast to ‘uint8_t*’ {aka ‘unsigned char*’} [-Wold-style-cast]
+   30 |     return (uint8_t*)base_pointer_map() - total_bitmap_bytes();
+      |                                       ^
+      |            ----------
+      |            reinterpret_cast<uint8_t*> ()
+vm/gc_info.hpp: In member function ‘factor::cell factor::gc_info::return_address_index(factor::cell)’:
+vm/gc_info.hpp:50:19: warning: use of old-style cast to ‘factor::cell’ {aka ‘long unsigned int’} [-Wold-style-cast]
+   50 |     return (cell)-1;
+      |                   ^
+      |            --------
+      |            static_cast<cell> (-1)
+In file included from vm/master.hpp:109:
+vm/contexts.hpp: In member function ‘factor::cell factor::context::peek()’:
+vm/contexts.hpp:71:20: warning: use of old-style cast to ‘factor::cell*’ {aka ‘long unsigned int*’} [-Wold-style-cast]
+   71 |     return *(cell*)datastack;
+      |                    ^~~~~~~~~
+      |             ----------------
+      |             reinterpret_cast<cell*> (datastack)
+vm/contexts.hpp: In member function ‘void factor::context::replace(factor::cell)’:
+vm/contexts.hpp:77:13: warning: use of old-style cast to ‘factor::cell*’ {aka ‘long unsigned int*’} [-Wold-style-cast]
+   77 |     *(cell*)datastack = tagged;
+      |             ^~~~~~~~~
+      |      ----------------
+      |      reinterpret_cast<cell*> (datastack)
+In file included from vm/master.hpp:111:
+vm/objects.hpp: In member function ‘void factor::object::each_slot(Iterator&)’:
+vm/objects.hpp:137:24: warning: use of old-style cast to ‘factor::cell*’ {aka ‘long unsigned int*’} [-Wold-style-cast]
+  137 |   cell* start = (cell*)this + 1;
+      |                        ^~~~
+In file included from vm/master.hpp:116:
+vm/instruction_operands.hpp: In constructor ‘factor::relocation_entry::relocation_entry(uint32_t)’:
+vm/instruction_operands.hpp:68:38: warning: declaration of ‘value’ shadows a member of ‘factor::relocation_entry’ [-Wshadow]
+   68 |   explicit relocation_entry(uint32_t value) : value(value) {}
+      |                             ~~~~~~~~~^~~~~
+vm/instruction_operands.hpp:66:12: note: shadowed declaration is here
+   66 |   uint32_t value;
+      |            ^~~~~
+vm/instruction_operands.hpp: In constructor ‘factor::relocation_entry::relocation_entry(uint32_t)’:
+vm/instruction_operands.hpp:68:38: warning: declaration of ‘value’ shadows a member of ‘factor::relocation_entry’ [-Wshadow]
+   68 |   explicit relocation_entry(uint32_t value) : value(value) {}
+      |                             ~~~~~~~~~^~~~~
+vm/instruction_operands.hpp:66:12: note: shadowed declaration is here
+   66 |   uint32_t value;
+      |            ^~~~~
+vm/instruction_operands.hpp: In constructor ‘factor::relocation_entry::relocation_entry(uint32_t)’:
+vm/instruction_operands.hpp:68:38: warning: declaration of ‘value’ shadows a member of ‘factor::relocation_entry’ [-Wshadow]
+   68 |   explicit relocation_entry(uint32_t value) : value(value) {}
+      |                             ~~~~~~~~~^~~~~
+vm/instruction_operands.hpp:66:12: note: shadowed declaration is here
+   66 |   uint32_t value;
+      |            ^~~~~
+vm/instruction_operands.hpp: In constructor ‘factor::relocation_entry::relocation_entry(factor::relocation_type, factor::relocation_class, factor::cell)’:
+vm/instruction_operands.hpp:72:41: warning: conversion to ‘factor::cell’ {aka ‘long unsigned int’} from ‘int’ may change the sign of the result [-Wsign-conversion]
+   72 |     value = (uint32_t)((rel_type << 28) | (rel_class << 24) | offset);
+      |                        ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+vm/instruction_operands.hpp:72:69: warning: use of old-style cast to ‘uint32_t’ {aka ‘unsigned int’} [-Wold-style-cast]
+   72 |     value = (uint32_t)((rel_type << 28) | (rel_class << 24) | offset);
+      |                                                                     ^
+      |             ----------
+      |             static_cast<uint32_t> (                                  )
+vm/instruction_operands.hpp: In member function ‘factor::relocation_type factor::relocation_entry::type()’:
+vm/instruction_operands.hpp:76:56: warning: use of old-style cast to ‘enum factor::relocation_type’ [-Wold-style-cast]
+   76 |     return (relocation_type)((value & 0xf0000000) >> 28);
+      |                                                        ^
+      |            -
+      |            static_cast<    -
+      |                            > (                          )
+vm/instruction_operands.hpp: In member function ‘factor::relocation_class factor::relocation_entry::klass()’:
+vm/instruction_operands.hpp:80:57: warning: use of old-style cast to ‘enum factor::relocation_class’ [-Wold-style-cast]
+   80 |     return (relocation_class)((value & 0x0f000000) >> 24);
+      |                                                         ^
+      |            -
+      |            static_cast<     -
+      |                             > (                          )
+vm/instruction_operands.hpp: In member function ‘int factor::relocation_entry::number_of_parameters()’:
+vm/instruction_operands.hpp:86:12: warning: enumeration value ‘RT_UNUSED’ not handled in switch [-Wswitch-enum]
+   86 |     switch (type()) {
+      |            ^
+In file included from vm/master.hpp:102:
+vm/tagged.hpp: In function ‘factor::cell factor::tag_dynamic(object*)’:
+vm/layouts.hpp:20:19: error: invalid ‘static_cast’ from type ‘factor::object*’ to type ‘factor::cell’ {aka ‘long unsigned int’}
+   20 | #define UNTAG(x) (static_cast<cell>(x) & static_cast<cell>(~TAG_MASK))
+      |                   ^~~~~~~~~~~~~~~~~~~~
+vm/layouts.hpp:21:24: note: in expansion of macro ‘UNTAG’
+   21 | #define RETAG(x, tag) (UNTAG(x) | (tag))
+      |                        ^~~~~
+vm/tagged.hpp:8:10: note: in expansion of macro ‘RETAG’
+    8 |   return RETAG(value, value->type());
+      |          ^~~~~
+In file included from vm/master.hpp:117:
+vm/tagged.hpp: In member function ‘Type* factor::tagged<Type>::untagged() const’:
+vm/tagged.hpp:29:33: warning: use of old-style cast to ‘Type*’ [-Wold-style-cast]
+   29 |     return (Type*)(UNTAG(value_));
+      |                                 ^
+vm/tagged.hpp: In constructor ‘factor::tagged<Type>::tagged(factor::cell)’:
+vm/tagged.hpp:32:24: warning: declaration of ‘tagged’ shadows a member of ‘factor::tagged<Type>’ [-Wshadow]
+   32 |   explicit tagged(cell tagged) : value_(tagged) {}
+      |                   ~~~~~^~~~~~
+vm/tagged.hpp:11:40: note: shadowed declaration is here
+   11 | template <typename Type> struct tagged {
+      |                                        ^
+In file included from vm/master.hpp:118:
+vm/code_blocks.hpp: In member function ‘factor::code_block_type factor::code_block::type() const’:
+vm/code_blocks.hpp:21:49: warning: use of old-style cast to ‘enum factor::code_block_type’ [-Wold-style-cast]
+   21 |     return (code_block_type)((header >> 1) & 0x3);
+      |                                                 ^
+      |            -
+      |            static_cast<    -
+      |                            > (                   )
+vm/code_blocks.hpp: In member function ‘void factor::code_block::set_type(factor::code_block_type)’:
+vm/code_blocks.hpp:25:25: warning: unsigned conversion from ‘int’ to ‘factor::cell’ {aka ‘long unsigned int’} changes value from ‘-8’ to ‘18446744073709551608’ [-Wsign-conversion]
+   25 |     header = ((header & ~0x7) | (type << 1));
+      |                         ^~~~
+vm/code_blocks.hpp:25:39: warning: conversion to ‘factor::cell’ {aka ‘long unsigned int’} from ‘int’ may change the sign of the result [-Wsign-conversion]
+   25 |     header = ((header & ~0x7) | (type << 1));
+      |                                 ~~~~~~^~~~~
+vm/code_blocks.hpp: In member function ‘factor::cell factor::code_block::size() const’:
+vm/code_blocks.hpp:33:23: warning: unsigned conversion from ‘int’ to ‘long unsigned int’ changes value from ‘-8’ to ‘18446744073709551608’ [-Wsign-conversion]
+   33 |       size = header & ~7;
+      |                       ^~
+vm/code_blocks.hpp: In member function ‘factor::cell factor::code_block::entry_point() const’:
+vm/code_blocks.hpp:67:52: warning: use of old-style cast to ‘factor::cell’ {aka ‘long unsigned int’} [-Wold-style-cast]
+   67 |   cell entry_point() const { return (cell)(this + 1); }
+      |                                                    ^
+      |                                     ----------------
+      |                                     reinterpret_cast<cell> ((this + 1))
+vm/code_blocks.hpp: In member function ‘factor::gc_info* factor::code_block::block_gc_info() const’:
+vm/code_blocks.hpp:71:27: warning: use of old-style cast to ‘uint8_t*’ {aka ‘unsigned char*’} [-Wold-style-cast]
+   71 |     void* ptr = (uint8_t*)this + size() - sizeof(gc_info);
+      |                           ^~~~
+vm/code_blocks.hpp:71:17: warning: cast from type ‘const factor::code_block*’ to type ‘uint8_t*’ {aka ‘unsigned char*’} casts away qualifiers [-Wcast-qual]
+   71 |     void* ptr = (uint8_t*)this + size() - sizeof(gc_info);
+      |                 ^~~~~~~~~~~~~~
+vm/code_blocks.hpp: In member function ‘void factor::code_block::flush_icache()’:
+vm/code_blocks.hpp:76:52: warning: use of old-style cast to ‘factor::cell’ {aka ‘long unsigned int’} [-Wold-style-cast]
+   76 |   void flush_icache() { factor::flush_icache((cell)this, size()); }
+      |                                                    ^~~~
+      |                                              ----------
+      |                                              reinterpret_cast<cell> (this)
+vm/code_blocks.hpp: In member function ‘factor::code_block* factor::word::code() const’:
+vm/code_blocks.hpp:108:23: warning: use of old-style cast to ‘struct factor::code_block*’ [-Wold-style-cast]
+  108 |   return (code_block*)entry_point - 1;
+      |                       ^~~~~~~~~~~
+      |          ------------------------
+      |          reinterpret_cast<code_block*> (entry_point)
+vm/code_blocks.hpp: In member function ‘factor::code_block* factor::quotation::code() const’:
+vm/code_blocks.hpp:113:23: warning: use of old-style cast to ‘struct factor::code_block*’ [-Wold-style-cast]
+  113 |   return (code_block*)entry_point - 1;
+      |                       ^~~~~~~~~~~
+      |          ------------------------
+      |          reinterpret_cast<code_block*> (entry_point)
+In file included from vm/master.hpp:119:
+vm/bump_allocator.hpp: In constructor ‘factor::bump_allocator::bump_allocator(factor::cell, factor::cell)’:
+vm/bump_allocator.hpp:10:34: warning: declaration of ‘start’ shadows a member of ‘factor::bump_allocator’ [-Wshadow]
+   10 |   bump_allocator(cell size, cell start)
+      |                             ~~~~~^~~~~
+vm/bump_allocator.hpp:6:8: note: shadowed declaration is here
+    6 |   cell start;
+      |        ^~~~~
+vm/bump_allocator.hpp:10:23: warning: declaration of ‘size’ shadows a member of ‘factor::bump_allocator’ [-Wshadow]
+   10 |   bump_allocator(cell size, cell start)
+      |                  ~~~~~^~~~
+vm/bump_allocator.hpp:8:8: note: shadowed declaration is here
+    8 |   cell size;
+      |        ^~~~
+vm/bump_allocator.hpp: In constructor ‘factor::bump_allocator::bump_allocator(factor::cell, factor::cell)’:
+vm/bump_allocator.hpp:10:34: warning: declaration of ‘start’ shadows a member of ‘factor::bump_allocator’ [-Wshadow]
+   10 |   bump_allocator(cell size, cell start)
+      |                             ~~~~~^~~~~
+vm/bump_allocator.hpp:6:8: note: shadowed declaration is here
+    6 |   cell start;
+      |        ^~~~~
+vm/bump_allocator.hpp:10:23: warning: declaration of ‘size’ shadows a member of ‘factor::bump_allocator’ [-Wshadow]
+   10 |   bump_allocator(cell size, cell start)
+      |                  ~~~~~^~~~
+vm/bump_allocator.hpp:8:8: note: shadowed declaration is here
+    8 |   cell size;
+      |        ^~~~
+vm/bump_allocator.hpp: In constructor ‘factor::bump_allocator::bump_allocator(factor::cell, factor::cell)’:
+vm/bump_allocator.hpp:10:34: warning: declaration of ‘start’ shadows a member of ‘factor::bump_allocator’ [-Wshadow]
+   10 |   bump_allocator(cell size, cell start)
+      |                             ~~~~~^~~~~
+vm/bump_allocator.hpp:6:8: note: shadowed declaration is here
+    6 |   cell start;
+      |        ^~~~~
+vm/bump_allocator.hpp:10:23: warning: declaration of ‘size’ shadows a member of ‘factor::bump_allocator’ [-Wshadow]
+   10 |   bump_allocator(cell size, cell start)
+      |                  ~~~~~^~~~
+vm/bump_allocator.hpp:8:8: note: shadowed declaration is here
+    8 |   cell size;
+      |        ^~~~
+vm/bump_allocator.hpp: In member function ‘bool factor::bump_allocator::contains_p(factor::object*)’:
+vm/bump_allocator.hpp:14:18: warning: use of old-style cast to ‘factor::cell’ {aka ‘long unsigned int’} [-Wold-style-cast]
+   14 |     return (cell)obj >= start && (cell)obj < end;
+      |                  ^~~
+      |            ---------
+      |            reinterpret_cast<cell> (obj)
+vm/bump_allocator.hpp:14:40: warning: use of old-style cast to ‘factor::cell’ {aka ‘long unsigned int’} [-Wold-style-cast]
+   14 |     return (cell)obj >= start && (cell)obj < end;
+      |                                        ^~~
+      |                                  ---------
+      |                                  reinterpret_cast<cell> (obj)
+vm/bump_allocator.hpp: In member function ‘factor::object* factor::bump_allocator::allot(factor::cell)’:
+vm/bump_allocator.hpp:20:21: warning: use of old-style cast to ‘struct factor::object*’ [-Wold-style-cast]
+   20 |     return (object*)h;
+      |                     ^
+      |            ----------
+      |            reinterpret_cast<object*> (h)
+In file included from vm/master.hpp:120:
+vm/bitwise_hacks.hpp: In function ‘factor::cell factor::popcount(cell)’:
+vm/bitwise_hacks.hpp:62:30: warning: conversion to ‘factor::cell’ {aka ‘long unsigned int’} from ‘int’ may change the sign of the result [-Wsign-conversion]
+   62 |   return __builtin_popcountll(x);
+      |          ~~~~~~~~~~~~~~~~~~~~^~~
+In file included from vm/master.hpp:121:
+vm/mark_bits.hpp: In constructor ‘factor::mark_bits::mark_bits(factor::cell, factor::cell)’:
+vm/mark_bits.hpp:17:29: warning: declaration of ‘start’ shadows a member of ‘factor::mark_bits’ [-Wshadow]
+   17 |   mark_bits(cell size, cell start)
+      |                        ~~~~~^~~~~
+vm/mark_bits.hpp:8:8: note: shadowed declaration is here
+    8 |   cell start;
+      |        ^~~~~
+vm/mark_bits.hpp:17:18: warning: declaration of ‘size’ shadows a member of ‘factor::mark_bits’ [-Wshadow]
+   17 |   mark_bits(cell size, cell start)
+      |             ~~~~~^~~~
+vm/mark_bits.hpp:7:8: note: shadowed declaration is here
+    7 |   cell size;
+      |        ^~~~
+vm/mark_bits.hpp: In constructor ‘factor::mark_bits::mark_bits(factor::cell, factor::cell)’:
+vm/mark_bits.hpp:17:29: warning: declaration of ‘start’ shadows a member of ‘factor::mark_bits’ [-Wshadow]
+   17 |   mark_bits(cell size, cell start)
+      |                        ~~~~~^~~~~
+vm/mark_bits.hpp:8:8: note: shadowed declaration is here
+    8 |   cell start;
+      |        ^~~~~
+vm/mark_bits.hpp:17:18: warning: declaration of ‘size’ shadows a member of ‘factor::mark_bits’ [-Wshadow]
+   17 |   mark_bits(cell size, cell start)
+      |             ~~~~~^~~~
+vm/mark_bits.hpp:7:8: note: shadowed declaration is here
+    7 |   cell size;
+      |        ^~~~
+vm/mark_bits.hpp: In constructor ‘factor::mark_bits::mark_bits(factor::cell, factor::cell)’:
+vm/mark_bits.hpp:17:29: warning: declaration of ‘start’ shadows a member of ‘factor::mark_bits’ [-Wshadow]
+   17 |   mark_bits(cell size, cell start)
+      |                        ~~~~~^~~~~
+vm/mark_bits.hpp:8:8: note: shadowed declaration is here
+    8 |   cell start;
+      |        ^~~~~
+vm/mark_bits.hpp:17:18: warning: declaration of ‘size’ shadows a member of ‘factor::mark_bits’ [-Wshadow]
+   17 |   mark_bits(cell size, cell start)
+      |             ~~~~~^~~~
+vm/mark_bits.hpp:7:8: note: shadowed declaration is here
+    7 |   cell size;
+      |        ^~~~
+vm/mark_bits.hpp: In member function ‘bool factor::mark_bits::bitmap_elt(factor::cell*, factor::cell)’:
+vm/mark_bits.hpp:56:43: warning: use of old-style cast to ‘factor::cell’ {aka ‘long unsigned int’} [-Wold-style-cast]
+   56 |     return (bits[position.first] & ((cell)1 << position.second)) != 0;
+      |                                           ^
+      |                                     -------
+      |                                     static_cast<cell> (1)
+vm/mark_bits.hpp: In member function ‘void factor::mark_bits::set_bitmap_range(factor::cell*, factor::cell, factor::cell)’:
+vm/mark_bits.hpp:63:30: warning: use of old-style cast to ‘factor::cell’ {aka ‘long unsigned int’} [-Wold-style-cast]
+   63 |     cell start_mask = ((cell)1 << bitmap_start.second) - 1;
+      |                              ^
+      |                        -------
+      |                        static_cast<cell> (1)
+vm/mark_bits.hpp:64:28: warning: use of old-style cast to ‘factor::cell’ {aka ‘long unsigned int’} [-Wold-style-cast]
+   64 |     cell end_mask = ((cell)1 << end.second) - 1;
+      |                            ^
+      |                      -------
+      |                      static_cast<cell> (1)
+vm/mark_bits.hpp:73:30: warning: use of old-style cast to ‘factor::cell’ {aka ‘long unsigned int’} [-Wold-style-cast]
+   73 |         bits[index] = (cell)-1;
+      |                              ^
+      |                       --------
+      |                       static_cast<cell> (-1)
+vm/mark_bits.hpp: In member function ‘factor::cell factor::mark_bits::forward_block(factor::cell)’:
+vm/mark_bits.hpp:106:24: warning: use of old-style cast to ‘factor::cell’ {aka ‘long unsigned int’} [-Wold-style-cast]
+  106 |     cell mask = ((cell)1 << position.second) - 1;
+      |                        ^
+      |                  -------
+      |                  static_cast<cell> (1)
+vm/mark_bits.hpp: In member function ‘factor::cell factor::mark_bits::next_unmarked_block_after(factor::cell)’:
+vm/mark_bits.hpp:120:46: warning: use of old-style cast to ‘factor::fixnum’ {aka ‘long int’} [-Wold-style-cast]
+  120 |       cell mask = ((fixnum)marked.get()[index] >> bit_index);
+      |                                              ^
+      |                    --------
+      |                    static_cast<fixnum> (      )
+vm/mark_bits.hpp:120:48: warning: conversion to ‘factor::cell’ {aka ‘long unsigned int’} from ‘factor::fixnum’ {aka ‘long int’} may change the sign of the result [-Wsign-conversion]
+  120 |       cell mask = ((fixnum)marked.get()[index] >> bit_index);
+      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
+In file included from vm/master.hpp:122:
+vm/fixup.hpp: In member function ‘factor::object* factor::no_fixup::translate_data(const factor::object*)’:
+vm/fixup.hpp:10:74: warning: use of old-style cast to ‘struct factor::object*’ [-Wold-style-cast]
+   10 |   object* translate_data(const object* obj) { return fixup_data((object*)obj); }
+      |                                                                          ^~~
+      |                                                                 ------------
+      |                                                                 const_cast<object*> (obj)
+vm/fixup.hpp:10:65: warning: cast from type ‘const factor::object*’ to type ‘factor::object*’ casts away qualifiers [-Wcast-qual]
+   10 |   object* translate_data(const object* obj) { return fixup_data((object*)obj); }
+      |                                                                 ^~~~~~~~~~~~
+vm/fixup.hpp: In member function ‘factor::code_block* factor::no_fixup::translate_code(const factor::code_block*)’:
+vm/fixup.hpp:13:36: warning: use of old-style cast to ‘struct factor::code_block*’ [-Wold-style-cast]
+   13 |     return fixup_code((code_block*)compiled);
+      |                                    ^~~~~~~~
+      |                       -
+      |                       const_cast< -
+      |                                   > (      )
+vm/fixup.hpp:13:23: warning: cast from type ‘const factor::code_block*’ to type ‘factor::code_block*’ casts away qualifiers [-Wcast-qual]
+   13 |     return fixup_code((code_block*)compiled);
+      |                       ^~~~~~~~~~~~~~~~~~~~~
+In file included from vm/master.hpp:123:
+vm/free_list.hpp: In member function ‘factor::cell factor::free_heap_block::size() const’:
+vm/free_list.hpp:12:26: warning: unsigned conversion from ‘int’ to ‘long unsigned int’ changes value from ‘-8’ to ‘18446744073709551608’ [-Wsign-conversion]
+   12 |     cell size = header & ~7;
+      |                          ^~
+vm/free_list.hpp: In member function ‘void factor::free_list_allocator<Block>::initial_free_list(factor::cell)’:
+vm/free_list.hpp:105:70: warning: use of old-style cast to ‘struct factor::free_heap_block*’ [-Wold-style-cast]
+  105 |     free_heap_block* last_block = (free_heap_block*)(start + occupied);
+      |                                                                      ^
+vm/free_list.hpp:106:39: warning: use of old-style cast to ‘factor::cell’ {aka ‘long unsigned int’} [-Wold-style-cast]
+  106 |     last_block->make_free(end - (cell)last_block);
+      |                                       ^~~~~~~~~~
+vm/free_list.hpp: In member function ‘bool factor::free_list_allocator<Block>::contains_p(Block*)’:
+vm/free_list.hpp:122:17: warning: use of old-style cast to ‘factor::cell’ {aka ‘long unsigned int’} [-Wold-style-cast]
+  122 |   return ((cell)block - start) < size;
+      |                 ^~~~~
+vm/free_list.hpp: In member function ‘factor::free_heap_block* factor::free_list_allocator<Block>::split_free_block(factor::free_heap_block*, factor::cell)’:
+vm/free_list.hpp:136:55: warning: use of old-style cast to ‘factor::cell’ {aka ‘long unsigned int’} [-Wold-style-cast]
+  136 |     free_heap_block* split = (free_heap_block*)((cell)block + requested_size);
+      |                                                       ^~~~~
+vm/free_list.hpp:136:77: warning: use of old-style cast to ‘struct factor::free_heap_block*’ [-Wold-style-cast]
+  136 |     free_heap_block* split = (free_heap_block*)((cell)block + requested_size);
+      |                                                                             ^
+vm/free_list.hpp: In member function ‘factor::free_heap_block* factor::free_list_allocator<Block>::find_free_block(factor::cell)’:
+vm/free_list.hpp:165:48: warning: use of old-style cast to ‘factor::cell’ {aka ‘long unsigned int’} [-Wold-style-cast]
+  165 |         large_block = (free_heap_block*)((cell)large_block + requested_size);
+      |                                                ^~~~~~~~~~~
+vm/free_list.hpp:165:76: warning: use of old-style cast to ‘struct factor::free_heap_block*’ [-Wold-style-cast]
+  165 |         large_block = (free_heap_block*)((cell)large_block + requested_size);
+      |                                                                            ^
+vm/free_list.hpp:183:10: warning: declaration of ‘end’ shadows a member of ‘factor::free_list_allocator<Block>’ [-Wshadow]
+  183 |     auto end = large_blocks.end();
+      |          ^~~
+vm/free_list.hpp:40:8: note: shadowed declaration is here
+   40 |   cell end;
+      |        ^~~
+vm/free_list.hpp: In member function ‘Block* factor::free_list_allocator<Block>::allot(factor::cell)’:
+vm/free_list.hpp:207:20: warning: use of old-style cast to ‘Block*’ [-Wold-style-cast]
+  207 |     return (Block*)block;
+      |                    ^~~~~
+vm/free_list.hpp: In member function ‘void factor::free_list_allocator<Block>::free(Block*)’:
+vm/free_list.hpp:214:51: warning: use of old-style cast to ‘struct factor::free_heap_block*’ [-Wold-style-cast]
+  214 |   free_heap_block* free_block = (free_heap_block*)block;
+      |                                                   ^~~~~
+vm/free_list.hpp: In member function ‘void factor::free_list_allocator<Block>::sweep(Iterator&)’:
+vm/free_list.hpp:255:55: warning: use of old-style cast to ‘struct factor::free_heap_block*’ [-Wold-style-cast]
+  255 |       free_heap_block* free_block = (free_heap_block*)current;
+      |                                                       ^~~~~~~
+vm/free_list.hpp:258:20: warning: use of old-style cast to ‘Block*’ [-Wold-style-cast]
+  258 |       iter((Block*)current, block_size);
+      |                    ^~~~~~~
+vm/free_list.hpp: In lambda function:
+vm/free_list.hpp:278:29: warning: use of old-style cast to ‘factor::cell’ {aka ‘long unsigned int’} [-Wold-style-cast]
+  278 |     cell block_addr = (cell)block;
+      |                             ^~~~~
+vm/free_list.hpp:281:47: warning: use of old-style cast to ‘Block*’ [-Wold-style-cast]
+  281 |     *finger = (Block*)(block_addr + block_size);
+      |                                               ^
+vm/free_list.hpp:282:28: warning: use of old-style cast to ‘factor::cell’ {aka ‘long unsigned int’} [-Wold-style-cast]
+  282 |     if (dest_addr != (cell)block) {
+      |                            ^~~~~
+vm/free_list.hpp:283:23: warning: use of old-style cast to ‘Block*’ [-Wold-style-cast]
+  283 |       memmove((Block*)dest_addr, block, block_size);
+      |                       ^~~~~~~~~
+vm/free_list.hpp:285:25: warning: use of old-style cast to ‘Block*’ [-Wold-style-cast]
+  285 |     iter(block, (Block*)dest_addr, block_size);
+      |                         ^~~~~~~~~
+vm/free_list.hpp: In member function ‘void factor::free_list_allocator<Block>::iterate(Iterator&, Fixup)’:
+vm/free_list.hpp:302:28: warning: use of old-style cast to ‘Block*’ [-Wold-style-cast]
+  302 |     Block* block = (Block*)scan;
+      |                            ^~~~
+In file included from vm/master.hpp:126:
+vm/aging_space.hpp: In member function ‘factor::cell factor::aging_space::next_object_after(factor::cell)’:
+vm/aging_space.hpp:19:32: warning: use of old-style cast to ‘struct factor::object*’ [-Wold-style-cast]
+   19 |     cell data_size = ((object*)scan)->size();
+      |                                ^~~~
+      |                       -------------
+      |                       reinterpret_cast<object*> (scan)
+In file included from vm/master.hpp:127:
+vm/tenured_space.hpp: In member function ‘factor::cell factor::tenured_space::next_allocated_object_after(factor::cell)’:
+vm/tenured_space.hpp:19:43: warning: use of old-style cast to ‘struct factor::object*’ [-Wold-style-cast]
+   19 |     while (scan != this->end && ((object*)scan)->free_p()) {
+      |                                           ^~~~
+      |                                  -------------
+      |                                  reinterpret_cast<object*> (scan)
+vm/tenured_space.hpp:20:55: warning: use of old-style cast to ‘struct factor::free_heap_block*’ [-Wold-style-cast]
+   20 |       free_heap_block* free_block = (free_heap_block*)scan;
+      |                                                       ^~~~
+      |                                     -
+      |                                     reinterpret_cast<-
+      |                                                      > (  )
+vm/tenured_space.hpp:21:20: warning: use of old-style cast to ‘factor::cell’ {aka ‘long unsigned int’} [-Wold-style-cast]
+   21 |       scan = (cell)free_block + free_block->size();
+      |                    ^~~~~~~~~~
+      |              ----------------
+      |              reinterpret_cast<cell> (free_block)
+vm/tenured_space.hpp: In member function ‘factor::cell factor::tenured_space::next_object_after(factor::cell)’:
+vm/tenured_space.hpp:31:32: warning: use of old-style cast to ‘struct factor::object*’ [-Wold-style-cast]
+   31 |     cell data_size = ((object*)scan)->size();
+      |                                ^~~~
+      |                       -------------
+      |                       reinterpret_cast<object*> (scan)
+In file included from vm/master.hpp:129:
+vm/code_heap.hpp: In member function ‘bool factor::code_heap::safepoint_p(factor::cell)’:
+vm/code_heap.hpp:69:22: warning: conversion to ‘factor::cell’ {aka ‘long unsigned int’} from ‘int’ may change the sign of the result [-Wsign-conversion]
+   69 |     cell page_mask = ~(getpagesize() - 1);
+      |                      ^~~~~~~~~~~~~~~~~~~~
+In file included from vm/master.hpp:136:
+vm/vm.hpp: In member function ‘void factor::factor_vm::each_object(Generation*, Iterator&)’:
+vm/vm.hpp:290:25: warning: use of old-style cast to ‘struct factor::object*’ [-Wold-style-cast]
+  290 |       iterator((object*)obj);
+      |                         ^~~
+vm/vm.hpp: In member function ‘void factor::factor_vm::write_barrier(factor::cell*)’:
+vm/vm.hpp:322:45: warning: use of old-style cast to ‘factor::cell’ {aka ‘long unsigned int’} [-Wold-style-cast]
+  322 |     *(unsigned char*)(cards_offset + ((cell)slot_ptr >> card_bits)) = card_mark_mask;
+      |                                             ^~~~~~~~
+      |                                       --------------
+      |                                       reinterpret_cast<cell> (slot_ptr)
+vm/vm.hpp:322:67: warning: use of old-style cast to ‘unsigned char*’ [-Wold-style-cast]
+  322 |     *(unsigned char*)(cards_offset + ((cell)slot_ptr >> card_bits)) = card_mark_mask;
+      |                                                                   ^
+      |      ----------------
+      |      reinterpret_cast<unsigned char*> (                            )
+vm/vm.hpp:323:45: warning: use of old-style cast to ‘factor::cell’ {aka ‘long unsigned int’} [-Wold-style-cast]
+  323 |     *(unsigned char*)(decks_offset + ((cell)slot_ptr >> deck_bits)) = card_mark_mask;
+      |                                             ^~~~~~~~
+      |                                       --------------
+      |                                       reinterpret_cast<cell> (slot_ptr)
+vm/vm.hpp:323:67: warning: use of old-style cast to ‘unsigned char*’ [-Wold-style-cast]
+  323 |     *(unsigned char*)(decks_offset + ((cell)slot_ptr >> deck_bits)) = card_mark_mask;
+      |                                                                   ^
+      |      ----------------
+      |      reinterpret_cast<unsigned char*> (                            )
+vm/vm.hpp: In member function ‘void factor::factor_vm::write_barrier(factor::object*, factor::cell)’:
+vm/vm.hpp:327:24: warning: use of old-style cast to ‘factor::cell’ {aka ‘long unsigned int’} [-Wold-style-cast]
+  327 |     cell start = (cell)obj & (~card_size + 1);
+      |                        ^~~
+      |                  ---------
+      |                  reinterpret_cast<cell> (obj)
+vm/vm.hpp:328:23: warning: use of old-style cast to ‘factor::cell’ {aka ‘long unsigned int’} [-Wold-style-cast]
+  328 |     cell end = ((cell)obj + size + card_size - 1) & (~card_size + 1);
+      |                       ^~~
+      |                 ---------
+      |                 reinterpret_cast<cell> (obj)
+vm/vm.hpp:331:28: warning: use of old-style cast to ‘factor::cell*’ {aka ‘long unsigned int*’} [-Wold-style-cast]
+  331 |       write_barrier((cell*)offset);
+      |                            ^~~~~~
+      |                     -------------
+      |                     reinterpret_cast<cell*> (offset)
+vm/vm.hpp: In member function ‘Type* factor::factor_vm::allot(factor::cell)’:
+vm/vm.hpp:361:55: warning: use of old-style cast to ‘Type*’ [-Wold-style-cast]
+  361 |     return (Type*)allot_object(Type::type_number, size);
+      |                                                       ^
+In file included from vm/master.hpp:139:
+vm/code_roots.hpp: In constructor ‘factor::code_root::code_root(factor::cell, factor::factor_vm*)’:
+vm/code_roots.hpp:10:36: warning: declaration of ‘parent’ shadows a member of ‘factor::code_root’ [-Wshadow]
+   10 |   code_root(cell value, factor_vm* parent)
+      |                         ~~~~~~~~~~~^~~~~~
+vm/code_roots.hpp:6:14: note: shadowed declaration is here
+    6 |   factor_vm* parent;
+      |              ^~~~~~
+vm/code_roots.hpp:10:18: warning: declaration of ‘value’ shadows a member of ‘factor::code_root’ [-Wshadow]
+   10 |   code_root(cell value, factor_vm* parent)
+      |             ~~~~~^~~~~
+vm/code_roots.hpp:4:8: note: shadowed declaration is here
+    4 |   cell value;
+      |        ^~~~~
+vm/code_roots.hpp: In constructor ‘factor::code_root::code_root(factor::cell, factor::factor_vm*)’:
+vm/code_roots.hpp:10:36: warning: declaration of ‘parent’ shadows a member of ‘factor::code_root’ [-Wshadow]
+   10 |   code_root(cell value, factor_vm* parent)
+      |                         ~~~~~~~~~~~^~~~~~
+vm/code_roots.hpp:6:14: note: shadowed declaration is here
+    6 |   factor_vm* parent;
+      |              ^~~~~~
+vm/code_roots.hpp:10:18: warning: declaration of ‘value’ shadows a member of ‘factor::code_root’ [-Wshadow]
+   10 |   code_root(cell value, factor_vm* parent)
+      |             ~~~~~^~~~~
+vm/code_roots.hpp:4:8: note: shadowed declaration is here
+    4 |   cell value;
+      |        ^~~~~
+vm/code_roots.hpp: In constructor ‘factor::code_root::code_root(factor::cell, factor::factor_vm*)’:
+vm/code_roots.hpp:10:36: warning: declaration of ‘parent’ shadows a member of ‘factor::code_root’ [-Wshadow]
+   10 |   code_root(cell value, factor_vm* parent)
+      |                         ~~~~~~~~~~~^~~~~~
+vm/code_roots.hpp:6:14: note: shadowed declaration is here
+    6 |   factor_vm* parent;
+      |              ^~~~~~
+vm/code_roots.hpp:10:18: warning: declaration of ‘value’ shadows a member of ‘factor::code_root’ [-Wshadow]
+   10 |   code_root(cell value, factor_vm* parent)
+      |             ~~~~~^~~~~
+vm/code_roots.hpp:4:8: note: shadowed declaration is here
+    4 |   cell value;
+      |        ^~~~~
+In file included from vm/master.hpp:140:
+vm/generic_arrays.hpp: In member function ‘Array* factor::factor_vm::reallot_array(Array*, factor::cell)’:
+vm/generic_arrays.hpp:49:31: warning: use of old-style cast to ‘char*’ [-Wold-style-cast]
+   49 |   memset((char*)(new_array + 1) + to_copy * Array::element_size, 0,
+      |                               ^
+In file included from vm/master.hpp:141:
+vm/callstack.hpp: In member function ‘void factor::factor_vm::iterate_callstack_object(factor::callstack*, Iterator&, Fixup&)’:
+vm/callstack.hpp:40:58: warning: use of old-style cast to ‘factor::cell*’ {aka ‘long unsigned int*’} [-Wold-style-cast]
+   40 |     cell addr = *(cell*)(frame_top + FRAME_RETURN_ADDRESS);
+      |                                                          ^
+vm/callstack.hpp:42:69: warning: use of old-style cast to ‘struct factor::code_block*’ [-Wold-style-cast]
+   42 |                           ? (cell)fixup.translate_code((code_block*)addr)
+      |                                                                     ^~~~
+vm/callstack.hpp:42:73: warning: use of old-style cast to ‘factor::cell’ {aka ‘long unsigned int’} [-Wold-style-cast]
+   42 |                           ? (cell)fixup.translate_code((code_block*)addr)
+      |                                                                         ^
+vm/callstack.hpp: In member function ‘void factor::factor_vm::iterate_callstack(factor::context*, Iterator&, Fixup&)’:
+vm/callstack.hpp:66:44: warning: declaration of ‘ctx’ shadows a member of ‘factor::factor_vm’ [-Wshadow]
+   66 | void factor_vm::iterate_callstack(context* ctx, Iterator& iterator,
+      |                                   ~~~~~~~~~^~~
+vm/vm.hpp:21:12: note: shadowed declaration is here
+   21 |   context* ctx;
+      |            ^~~
+vm/callstack.hpp:98:52: warning: use of old-style cast to ‘factor::cell*’ {aka ‘long unsigned int*’} [-Wold-style-cast]
+   98 |     cell addr = *(cell*)(top + FRAME_RETURN_ADDRESS);
+      |                                                    ^
+vm/callstack.hpp:105:31: warning: use of old-style cast to ‘factor::cell’ {aka ‘long unsigned int’} [-Wold-style-cast]
+  105 |     cell delta = addr - (cell)owner - sizeof(code_block);
+      |                               ^~~~~
+vm/callstack.hpp: In member function ‘void factor::factor_vm::iterate_callstack(factor::context*, Iterator&)’:
+vm/callstack.hpp:120:51: warning: declaration of ‘ctx’ shadows a member of ‘factor::factor_vm’ [-Wshadow]
+  120 | inline void factor_vm::iterate_callstack(context* ctx, Iterator& iterator) {
+      |                                          ~~~~~~~~~^~~
+vm/vm.hpp:21:12: note: shadowed declaration is here
+   21 |   context* ctx;
+      |            ^~~
+In file included from vm/master.hpp:142:
+vm/slot_visitor.hpp: In member function ‘factor::cell factor::object::base_size(Fixup) const’:
+vm/slot_visitor.hpp:8:33: warning: use of old-style cast to ‘struct factor::array*’ [-Wold-style-cast]
+    8 |       return array_size((array*)this);
+      |                                 ^~~~
+vm/slot_visitor.hpp:10:34: warning: use of old-style cast to ‘struct factor::bignum*’ [-Wold-style-cast]
+   10 |       return array_size((bignum*)this);
+      |                                  ^~~~
+vm/slot_visitor.hpp:12:38: warning: use of old-style cast to ‘struct factor::byte_array*’ [-Wold-style-cast]
+   12 |       return array_size((byte_array*)this);
+      |                                      ^~~~
+vm/slot_visitor.hpp:14:51: warning: use of old-style cast to ‘struct factor::string*’ [-Wold-style-cast]
+   14 |       return string_size(string_capacity((string*)this));
+      |                                                   ^~~~
+vm/slot_visitor.hpp:17:34: warning: use of old-style cast to ‘struct factor::tuple*’ [-Wold-style-cast]
+   17 |           untag<object>(((tuple*)this)->layout));
+      |                                  ^~~~
+vm/slot_visitor.hpp:17:48: warning: use of old-style cast to ‘struct factor::tuple_layout*’ [-Wold-style-cast]
+   17 |           untag<object>(((tuple*)this)->layout));
+      |                                                ^
+vm/slot_visitor.hpp:33:57: warning: use of old-style cast to ‘struct factor::callstack*’ [-Wold-style-cast]
+   33 |       cell callstack_length = untag_fixnum(((callstack*)this)->length);
+      |                                                         ^~~~
+vm/slot_visitor.hpp:37:59: warning: use of old-style cast to ‘factor::cell’ {aka ‘long unsigned int’} [-Wold-style-cast]
+   37 |       critical_error("Invalid header in base_size", (cell)this);
+      |                                                           ^~~~
+vm/slot_visitor.hpp: In member function ‘factor::cell factor::object::size(Fixup) const’:
+vm/slot_visitor.hpp:46:31: warning: use of old-style cast to ‘struct factor::free_heap_block*’ [-Wold-style-cast]
+   46 |     return ((free_heap_block*)this)->size();
+      |                               ^~~~
+vm/slot_visitor.hpp: In member function ‘factor::cell factor::object::slot_count(Fixup) const’:
+vm/slot_visitor.hpp:63:39: warning: use of old-style cast to ‘struct factor::array*’ [-Wold-style-cast]
+   63 |     return 1 + array_capacity((array*)this);
+      |                                       ^~~~
+vm/slot_visitor.hpp:66:32: warning: use of old-style cast to ‘struct factor::tuple*’ [-Wold-style-cast]
+   66 |         untag<object>(((tuple*)this)->layout));
+      |                                ^~~~
+vm/slot_visitor.hpp:66:46: warning: use of old-style cast to ‘struct factor::tuple_layout*’ [-Wold-style-cast]
+   66 |         untag<object>(((tuple*)this)->layout));
+      |                                              ^
+vm/slot_visitor.hpp:83:62: warning: use of old-style cast to ‘factor::cell’ {aka ‘long unsigned int’} [-Wold-style-cast]
+   83 |         critical_error("Invalid header in slot_count", (cell)this);
+      |                                                              ^~~~

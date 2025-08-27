@@ -102,6 +102,9 @@ struct relocation_entry {
       case RT_INLINE_CACHE_MISS:
       case RT_SAFEPOINT:
         return 0;
+      case RT_UNUSED:
+        critical_error("RT_UNUSED in number_of_parameters()", type());
+        return -1; // Should not be used
       default:
         critical_error("Bad rel type in number_of_parameters()", type());
         return -1; // Can't happen

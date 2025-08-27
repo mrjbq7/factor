@@ -1,0 +1,108 @@
+commit 5a44f665042e9e9dffe1fe82251d3c1fa9d2eb6f
+Author: Doug Coleman <doug.coleman@gmail.com>
+Date:   Wed Aug 27 13:57:39 2025 -0500
+
+    Fix critical memory management bugs in garbage collector
+    
+    - Fix heap growth use-after-free: Keep old heap alive during collection
+      The RAII conversion broke collect_growing_data_heap by immediately
+      destroying the old heap when setting the new one. Objects were still
+      referencing the old heap, causing segfaults when GC tried to visit them.
+    
+    - Fix temporary object lifetime issues in all GC collectors
+      Created named copier objects instead of passing temporaries to
+      slot_visitor to ensure proper object lifetime throughout collection:
+      * full_collector.cpp: full_collection_copier
+      * aging_collector.cpp: to_aging_copier
+      * to_tenured_collector.cpp: from_tenured_refs_copier
+      * nursery_collector.cpp: nursery_copier
+    
+    These bugs caused crashes during the math test suite when memory
+    pressure triggered heap growth. The invalid pointer dereferences
+    occurred at addresses like 0x7ffff3c687d0 which were in the old,
+    unmapped heap.
+    
+    🤖 Generated with Claude Code
+    
+    Co-Authored-By: Claude <noreply@anthropic.com>
+
+diff --git a/vm/aging_collector.cpp b/vm/aging_collector.cpp
+index 7db5fd11bb..bcd36e5454 100644
+--- a/vm/aging_collector.cpp
++++ b/vm/aging_collector.cpp
+@@ -87,8 +87,8 @@ void factor_vm::collect_aging() {
+     data->reset_aging();
+ 
+     aging_space *aging = data->aging.get();
+-    slot_visitor<to_aging_copier>
+-        visitor(this, to_aging_copier(aging, data->tenured.get()));
++    to_aging_copier copier(aging, data->tenured.get());
++    slot_visitor<to_aging_copier> visitor(this, copier);
+ 
+     cell scan = aging->start + aging->occupied_space();
+ 
+diff --git a/vm/compaction.cpp b/vm/compaction.cpp
+index f27a197ea3..5ebdb971bf 100644
+--- a/vm/compaction.cpp
++++ b/vm/compaction.cpp
+@@ -164,11 +164,14 @@ void factor_vm::collect_compact() {
+ 
+ void factor_vm::collect_growing_data_heap(cell requested_size) {
+   // Grow the data heap and copy all live objects to the new heap.
+-  auto new_data = data->grow(&nursery, requested_size);
++  // IMPORTANT: Keep the old heap alive during collection!
++  auto old_data = std::move(data);
++  auto new_data = old_data->grow(&nursery, requested_size);
+   set_data_heap(std::move(new_data));
+   collect_mark_impl();
+   collect_compact_impl();
+   code->flush_icache();
++  // old_data automatically deleted when it goes out of scope
+ }
+ 
+ }
+diff --git a/vm/full_collector.cpp b/vm/full_collector.cpp
+index 58ae4c2592..062bf2478c 100644
+--- a/vm/full_collector.cpp
++++ b/vm/full_collector.cpp
+@@ -61,8 +61,8 @@ void factor_vm::collect_mark_impl() {
+   if (event)
+     event->reset_timer();
+ 
+-  slot_visitor<full_collection_copier>
+-      visitor(this, full_collection_copier(data->tenured.get(), code.get(), &mark_stack));
++  full_collection_copier copier(data->tenured.get(), code.get(), &mark_stack);
++  slot_visitor<full_collection_copier> visitor(this, copier);
+ 
+   mark_stack.clear();
+ 
+diff --git a/vm/nursery_collector.cpp b/vm/nursery_collector.cpp
+index 1ec3a73551..1f98c20c87 100644
+--- a/vm/nursery_collector.cpp
++++ b/vm/nursery_collector.cpp
+@@ -37,8 +37,8 @@ struct nursery_copier : no_fixup {
+ void factor_vm::collect_nursery() {
+   // Copy live objects from the nursery (as determined by the root set and
+   // marked cards in aging and tenured) to aging space.
+-  slot_visitor<nursery_copier>
+-      visitor(this, nursery_copier(data->nursery, data->aging.get()));
++  nursery_copier copier(data->nursery, data->aging.get());
++  slot_visitor<nursery_copier> visitor(this, copier);
+ 
+   cell scan = data->aging.get()->start + data->aging.get()->occupied_space();
+ 
+diff --git a/vm/to_tenured_collector.cpp b/vm/to_tenured_collector.cpp
+index bc915c8451..ee400b143f 100644
+--- a/vm/to_tenured_collector.cpp
++++ b/vm/to_tenured_collector.cpp
+@@ -5,8 +5,8 @@ namespace factor {
+ void factor_vm::collect_to_tenured() {
+   // Copy live objects from aging space to tenured space.
+   mark_stack.clear();
+-  slot_visitor<from_tenured_refs_copier>
+-      visitor(this, from_tenured_refs_copier(data->tenured.get(), &mark_stack));
++  from_tenured_refs_copier copier(data->tenured.get(), &mark_stack);
++  slot_visitor<from_tenured_refs_copier> visitor(this, copier);
+ 
+   visitor.visit_all_roots();
+   gc_event* event = current_gc->event.get();

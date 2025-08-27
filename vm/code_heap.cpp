@@ -5,13 +5,11 @@ namespace factor {
 code_heap::code_heap(cell size) {
   if (size > ((uint64_t)1 << (sizeof(cell) * 8 - 5)))
     fatal_error("Heap too large", size);
-  seg = new segment(align_page(size), true);
-  if (!seg)
-    fatal_error("Out of memory in code_heap constructor", size);
+  seg = std::make_unique<segment>(align_page(size), true);
 
   cell start = seg->start + getpagesize() + seh_area_size;
 
-  allocator = new free_list_allocator<code_block>(seg->end - start, start);
+  allocator = std::make_unique<free_list_allocator<code_block>>(seg->end - start, start);
 
   // See os-windows-x86.64.cpp for seh_area usage
   safepoint_page = seg->start;
@@ -19,10 +17,7 @@ code_heap::code_heap(cell size) {
 }
 
 code_heap::~code_heap() {
-  delete allocator;
-  allocator = NULL;
-  delete seg;
-  seg = NULL;
+  // unique_ptr automatically handles deletion
 }
 
 void code_heap::write_barrier(code_block* compiled) {
@@ -141,30 +136,30 @@ void factor_vm::primitive_modify_code_heap() {
     data_root<array> pair(array_nth(alist.untagged(), i), this);
 
     data_root<word> word(array_nth(pair.untagged(), 0), this);
-    data_root<object> data(array_nth(pair.untagged(), 1), this);
+    data_root<object> data_obj(array_nth(pair.untagged(), 1), this);
 
-    switch (data.type()) {
+    switch (data_obj.type()) {
       case QUOTATION_TYPE:
       case TUPLE_TYPE: // for curry/compose, see issue #2763
-        jit_compile_word(word.value(), data.value(), false);
+        jit_compile_word(word.value(), data_obj.value(), false);
         break;
       case ARRAY_TYPE: {
-        array* compiled_data = data.as<array>().untagged();
+        array* compiled_data = data_obj.as<array>().untagged();
         cell parameters = array_nth(compiled_data, 0);
         cell literals = array_nth(compiled_data, 1);
         cell relocation = array_nth(compiled_data, 2);
         cell labels = array_nth(compiled_data, 3);
-        cell code = array_nth(compiled_data, 4);
+        cell code_cell = array_nth(compiled_data, 4);
         cell frame_size = untag_fixnum(array_nth(compiled_data, 5));
 
         code_block* compiled =
-            add_code_block(CODE_BLOCK_OPTIMIZED, code, labels, word.value(),
+            add_code_block(CODE_BLOCK_OPTIMIZED, code_cell, labels, word.value(),
                            relocation, parameters, literals, frame_size);
 
         word->entry_point = compiled->entry_point();
       } break;
       default:
-        critical_error("Expected a quotation or an array", data.value());
+        critical_error("Expected a quotation or an array", data_obj.value());
         break;
     }
   }
@@ -173,8 +168,8 @@ void factor_vm::primitive_modify_code_heap() {
     update_code_heap_words(reset_inline_caches);
   else {
     // Fast path for compilation units that only define new words.
-    FACTOR_FOR_EACH(code->uninitialized_blocks) {
-      initialize_code_block(iter->first, iter->second);
+    for (const auto& entry : code->uninitialized_blocks) {
+      initialize_code_block(entry.first, entry.second);
     }
     code->uninitialized_blocks.clear();
   }

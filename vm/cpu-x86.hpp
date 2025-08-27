@@ -32,12 +32,17 @@ inline static void check_call_site(cell return_address) {
 
 inline static void* get_call_target(cell return_address) {
   check_call_site(return_address);
-  return (void*)(*(int*)(return_address - 4) + return_address);
+  int32_t offset;
+  memcpy(&offset, reinterpret_cast<void*>(return_address - 4), sizeof(int32_t));
+  // Sign extension is intentional: offset is a signed relative displacement
+  // that needs to be added to the unsigned return_address for x86 addressing
+  return reinterpret_cast<void*>(static_cast<cell>(offset) + return_address);
 }
 
 inline static void set_call_target(cell return_address, cell target) {
   check_call_site(return_address);
-  *(int*)(return_address - 4) = (uint32_t)(target - return_address);
+  int32_t offset = static_cast<int32_t>(target - return_address);
+  memcpy(reinterpret_cast<void*>(return_address - 4), &offset, sizeof(int32_t));
 }
 
 inline static bool tail_call_site_p(cell return_address) {
