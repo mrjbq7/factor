@@ -1737,7 +1737,7 @@ int factor_vm::bignum_unsigned_logbitp(int shift, bignum* bn) {
     return 0;
   bignum_digit_type digit = (BIGNUM_REF(bn, index));
   int p = shift % BIGNUM_DIGIT_LENGTH;
-  bignum_digit_type mask = (static_cast<fixnum>(1) << p;
+  bignum_digit_type mask = static_cast<fixnum>(1) << p;
   return (digit & mask) ? 1 : 0;
 }
 
