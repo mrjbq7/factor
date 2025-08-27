@@ -31,7 +31,7 @@ struct from_tenured_refs_copier : no_fixup {
     memcpy(newpointer, obj, size);
     obj->forward_to(newpointer);
 
-    mark_stack->push_back((cell)newpointer);
+    mark_stack->push_back(reinterpret_cast<cell>(newpointer));
     return newpointer;
   }
 };
