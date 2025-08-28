@@ -5,7 +5,7 @@ namespace factor {
 void factor_vm::deallocate_inline_cache(cell return_address) {
   // Find the call target.
   void* old_entry_point = get_call_target(return_address);
-  code_block* old_block = (code_block*)old_entry_point - 1;
+  code_block* old_block = reinterpret_cast<code_block*>(old_entry_point) - 1;
 
   // Free the old PIC since we know its unreachable
   if (old_block->pic_p())
@@ -195,7 +195,7 @@ cell factor_vm::inline_cache_miss(cell return_address_) {
 #ifdef PIC_DEBUG
     FACTOR_PRINT("Updated " << (tail_call_site ? "tail" : "non-tail")
                  << " call site 0x" << std::hex << return_address.value << std::dec
-                 << " with 0x" << std::hex << (cell)xt << std::dec);
+                 << " with 0x" << std::hex << reinterpret_cast<cell>(xt) << std::dec);
     print_callstack();
 #endif
   }

@@ -35,9 +35,19 @@ void context::reset_context_objects() {
 
 void context::fill_stack_seg(cell top_ptr, segment* seg, cell pattern) {
 #ifdef FACTOR_DEBUG
-  cell clear_start = top_ptr + sizeof(cell);
+  // Ensure we don't go past the end or have a negative size
+  cell clear_start = top_ptr + sizeof(cell);  
+  if (clear_start >= seg->end) {
+    return; // Nothing to clear
+  }
+  
+  // Additional sanity check
   cell clear_size = seg->end - clear_start;
-  memset_cell((void*)clear_start, pattern, clear_size);
+  if (clear_size > seg->size) {
+    fatal_error("Invalid clear size in fill_stack_seg", clear_size);
+  }
+  
+  memset_cell(reinterpret_cast<void*>(clear_start), pattern, clear_size);
 #else
   (void)top_ptr;
   (void)seg;
@@ -193,20 +203,27 @@ void factor_vm::primitive_context_object_for() {
 
 // Allocates memory
 cell factor_vm::stack_to_array(cell bottom, cell top, vm_error_type error) {
-  fixnum depth = (fixnum)(top - bottom + sizeof(cell));
+  fixnum depth = static_cast<fixnum>(top - bottom + sizeof(cell));
 
   if (depth < 0) {
     general_error(error, false_object, false_object);
   }
+
+  // Sanity check - stacks shouldn't be enormous
+  const cell MAX_STACK_SIZE = 1024 * 1024 * 16; // 16MB max
+  if (static_cast<cell>(depth) > MAX_STACK_SIZE) {
+    general_error(error, false_object, false_object);
+  }
+  
   array* a = allot_uninitialized_array<array>(depth / sizeof(cell));
-  memcpy(a + 1, (void*)bottom, depth);
+  memcpy(a + 1, reinterpret_cast<void*>(bottom), depth);
   return tag<array>(a);
 }
 
 // Allocates memory
-cell factor_vm::datastack_to_array(context* ctx) {
-  return stack_to_array(ctx->datastack_seg->start,
-                        ctx->datastack,
+cell factor_vm::datastack_to_array(context* ctx_) {
+  return stack_to_array(ctx_->datastack_seg->start,
+                        ctx_->datastack,
                         ERROR_DATASTACK_UNDERFLOW);
 }
 
@@ -220,9 +237,9 @@ void factor_vm::primitive_datastack_for() {
 }
 
 // Allocates memory
-cell factor_vm::retainstack_to_array(context* ctx) {
-  return stack_to_array(ctx->retainstack_seg->start,
-                        ctx->retainstack,
+cell factor_vm::retainstack_to_array(context* ctx_) {
+  return stack_to_array(ctx_->retainstack_seg->start,
+                        ctx_->retainstack,
                         ERROR_RETAINSTACK_UNDERFLOW);
 }
 
@@ -276,11 +293,28 @@ void factor_vm::primitive_check_datastack() {
 
 void factor_vm::primitive_load_locals() {
   fixnum count = untag_fixnum(ctx->pop());
-  memcpy((cell*)(ctx->retainstack + sizeof(cell)),
-         (cell*)(ctx->datastack - sizeof(cell) * (count - 1)),
-         sizeof(cell) * count);
-  ctx->datastack -= sizeof(cell) * count;
-  ctx->retainstack += sizeof(cell) * count;
+  // Bounds checking
+  if (count < 0) {
+    general_error(ERROR_DATASTACK_UNDERFLOW, false_object, false_object);
+  }
+  
+  cell bytes_to_copy = sizeof(cell) * count;
+  
+  // Check if we have enough data on the datastack
+  if (ctx->datastack - bytes_to_copy + sizeof(cell) < ctx->datastack_seg->start) {
+    general_error(ERROR_DATASTACK_UNDERFLOW, false_object, false_object);
+  }
+  
+  // Check if we have enough room on the retainstack
+  if (ctx->retainstack + bytes_to_copy > ctx->retainstack_seg->end - stack_reserved) {
+    general_error(ERROR_RETAINSTACK_OVERFLOW, false_object, false_object);
+  }
+  
+  memcpy(reinterpret_cast<cell*>(ctx->retainstack + sizeof(cell)),
+         reinterpret_cast<cell*>(ctx->datastack - sizeof(cell) * (count - 1)),
+         bytes_to_copy);
+  ctx->datastack -= bytes_to_copy;
+  ctx->retainstack += bytes_to_copy;
 }
 
 }

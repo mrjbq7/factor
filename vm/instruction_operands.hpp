@@ -65,7 +65,7 @@ static const cell rel_arm_cmp_mask = 0x003ffc00;
 struct relocation_entry {
   uint32_t value;
 
-  explicit relocation_entry(uint32_t value) : value(value) {}
+  explicit relocation_entry(uint32_t value_) : value(value_) {}
 
   relocation_entry(relocation_type rel_type, relocation_class rel_class,
                    cell offset) {

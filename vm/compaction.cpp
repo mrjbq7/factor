@@ -10,21 +10,21 @@ struct compaction_fixup {
   const object** data_finger;
   const code_block** code_finger;
 
-  compaction_fixup(mark_bits* data_forwarding_map,
-                   mark_bits* code_forwarding_map,
-                   const object** data_finger,
-                   const code_block** code_finger)
-      : data_forwarding_map(data_forwarding_map),
-        code_forwarding_map(code_forwarding_map),
-        data_finger(data_finger),
-        code_finger(code_finger) {}
+  compaction_fixup(mark_bits* data_forwarding_map_,
+                   mark_bits* code_forwarding_map_,
+                   const object** data_finger_,
+                   const code_block** code_finger_)
+      : data_forwarding_map(data_forwarding_map_),
+        code_forwarding_map(code_forwarding_map_),
+        data_finger(data_finger_),
+        code_finger(code_finger_) {}
 
   object* fixup_data(object* obj) {
-    return (object*)data_forwarding_map->forward_block((cell)obj);
+    return reinterpret_cast<object*>(data_forwarding_map->forward_block(reinterpret_cast<cell>(obj)));
   }
 
   code_block* fixup_code(code_block* compiled) {
-    return (code_block*)code_forwarding_map->forward_block((cell)compiled);
+    return reinterpret_cast<code_block*>(code_forwarding_map->forward_block(reinterpret_cast<cell>(compiled)));
   }
 
   object* translate_data(const object* obj) {
@@ -35,20 +35,20 @@ struct compaction_fixup {
 
   code_block* translate_code(const code_block* compiled) {
     if (compiled < *code_finger)
-      return fixup_code((code_block*)compiled);
-    return (code_block*)compiled;
+      return fixup_code(reinterpret_cast<code_block*>(const_cast<code_block*>(compiled)));
+    return const_cast<code_block*>(compiled);
   }
 
   cell size(object* obj) {
-    if (data_forwarding_map->marked_p((cell)obj))
+    if (data_forwarding_map->marked_p(reinterpret_cast<cell>(obj)))
       return obj->size(*this);
-    return data_forwarding_map->unmarked_block_size((cell)obj);
+    return data_forwarding_map->unmarked_block_size(reinterpret_cast<cell>(obj));
   }
 
   cell size(code_block* compiled) {
-    if (code_forwarding_map->marked_p((cell)compiled))
+    if (code_forwarding_map->marked_p(reinterpret_cast<cell>(compiled)))
       return compiled->size(*this);
-    return code_forwarding_map->unmarked_block_size((cell)compiled);
+    return code_forwarding_map->unmarked_block_size(reinterpret_cast<cell>(compiled));
   }
 };
 

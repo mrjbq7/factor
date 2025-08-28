@@ -1230,7 +1230,7 @@ void factor_vm::bignum_divide_unsigned_small_denominator(
 
   q.set_untagged(bignum_trim(q.untagged()));
 
-  if (remainder != ((bignum**)0))
+  if (remainder != static_cast<bignum**>(nullptr))
     (*remainder) = bignum_digit_to_bignum(r, r_negative_p);
 
   (*quotient) = q.untagged();

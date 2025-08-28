@@ -5,11 +5,11 @@ struct quotation_jit : public jit {
   bool compiling, relocate;
 
   // Allocates memory
-  quotation_jit(cell owner, bool compiling, bool relocate, factor_vm* vm)
-      : jit(owner, vm),
-        elements(false_object, vm),
-        compiling(compiling),
-        relocate(relocate) {}
+  quotation_jit(cell owner_, bool compiling_, bool relocate_, factor_vm* vm_)
+      : jit(owner_, vm_),
+        elements(false_object, vm_),
+        compiling(compiling_),
+        relocate(relocate_) {}
 
   cell nth(cell index);
   void init_quotation(cell quot);

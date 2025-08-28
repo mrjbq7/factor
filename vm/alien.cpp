@@ -72,7 +72,7 @@ void factor_vm::primitive_displaced_alien() {
 // if the object is a byte array, as a sanity check.
 // Allocates memory (from_unsigned_cell can allocate)
 void factor_vm::primitive_alien_address() {
-  ctx->replace(from_unsigned_cell((cell)pinned_alien_offset(ctx->peek())));
+  ctx->replace(from_unsigned_cell(reinterpret_cast<cell>(pinned_alien_offset(ctx->peek()))));
 }
 
 // pop ( alien n ) from datastack, return alien's address plus n
@@ -117,7 +117,7 @@ void factor_vm::primitive_dlsym() {
   if (to_boolean(library.value())) {
     dll* d = untag_check<dll>(library.value());
 
-    if (d->handle == NULL)
+    if (d->handle == nullptr)
       ctx->replace(false_object);
     else
       ctx->replace(allot_alien(ffi_dlsym(d, sym)));
@@ -128,14 +128,14 @@ void factor_vm::primitive_dlsym() {
 // close a native library handle
 void factor_vm::primitive_dlclose() {
   dll* d = untag_check<dll>(ctx->pop());
-  if (d->handle != NULL)
+  if (d->handle != nullptr)
     ffi_dlclose(d);
 }
 
 void factor_vm::primitive_dll_validp() {
   cell library = ctx->peek();
   if (to_boolean(library))
-    ctx->replace(tag_boolean(untag_check<dll>(library)->handle != NULL));
+    ctx->replace(tag_boolean(untag_check<dll>(library)->handle != nullptr));
   else
     ctx->replace(special_objects[OBJ_CANONICAL_TRUE]);
 }

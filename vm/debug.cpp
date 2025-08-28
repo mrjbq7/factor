@@ -201,8 +201,8 @@ struct stack_frame_printer {
   factor_vm* parent;
   ostream& out;
 
-  explicit stack_frame_printer(factor_vm* parent, ostream& out)
-      : parent(parent), out(out) {}
+  explicit stack_frame_printer(factor_vm* parent_, ostream& out_)
+      : parent(parent_), out(out_) {}
   void operator()(cell frame_top, cell size, code_block* owner, cell addr) {
     out << endl;
     out << "frame: " << (void*)frame_top << " size " << size << endl;
@@ -241,7 +241,7 @@ void factor_vm::print_callstack_object(ostream& out, callstack* obj) {
 struct padded_address {
   cell value;
 
-  explicit padded_address(cell value) : value(value) {}
+  explicit padded_address(cell value_) : value(value_) {}
 };
 
 ostream& operator<<(ostream& out, const padded_address& value) {
@@ -304,7 +304,7 @@ void factor_vm::dump_objects(ostream& out, cell type) {
   primitive_full_gc();
   auto object_dumper = [&](object* obj) {
      if (type == TYPE_COUNT || obj->type() == type) {
-      out << padded_address((cell)obj) << " ";
+      out << padded_address(reinterpret_cast<cell>(obj)) << " ";
       print_nested_obj(out, tag_dynamic(obj), 2);
       out << endl;
     }
@@ -316,7 +316,7 @@ void factor_vm::find_data_references(ostream& out, cell look_for) {
   primitive_full_gc();
   auto find_data_ref_func = [&](object* obj, cell* slot) {
     if (look_for == *slot) {
-      out << padded_address((cell)obj) << " ";
+      out << padded_address(reinterpret_cast<cell>(obj)) << " ";
       print_nested_obj(out, tag_dynamic(obj), 2);
       out << endl;
     }
@@ -352,12 +352,12 @@ struct code_block_printer {
       reloc_size += object_size(scan->relocation);
       parameter_size += object_size(scan->parameters);
 
-      if (parent->code->allocator->state.marked_p((cell)scan))
+      if (parent->code->allocator->state.marked_p(reinterpret_cast<cell>(scan)))
         status = "marked";
       else
         status = "allocated";
 
-      out << hex << (cell)scan << dec << " ";
+      out << hex << reinterpret_cast<cell>(scan) << dec << " ";
       out << hex << size << dec << " ";
       out << status << " ";
       out << "stack frame " << scan->stack_frame_size();

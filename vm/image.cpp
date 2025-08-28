@@ -36,7 +36,7 @@ vm_parameters::vm_parameters() {
   signals = true;
 
 #ifdef WINDOWS
-  console = GetConsoleWindow() != NULL;
+  console = GetConsoleWindow() != nullptr;
 #else
   console = true;
 #endif
@@ -159,7 +159,7 @@ void factor_vm::load_code_heap(FILE* file, image_header* h, vm_parameters* p) {
     if (uncompress) {
       lib::zstd::zstd_lib zstd;
       zstd.open();
-      size_t result = zstd.decompress((void*)code->allocator->start, h->code_size, buf, h->compressed_code_size);
+      size_t result = zstd.decompress(reinterpret_cast<void*>(code->allocator->start), h->code_size, buf, h->compressed_code_size);
       if (zstd.is_error(result)) {
         std::cout << "code heap decompression: " << zstd.get_error_name(result) << '\n';
         fatal_error("load_code_heap failed", 0);
@@ -184,11 +184,11 @@ struct startup_fixup {
       : data_offset(data_offset), code_offset(code_offset) {}
 
   object* fixup_data(object* obj) {
-    return (object*)((cell)obj + data_offset);
+    return (object*)(reinterpret_cast<cell>(obj) + data_offset);
   }
 
   code_block* fixup_code(code_block* obj) {
-    return (code_block*)((cell)obj + code_offset);
+    return reinterpret_cast<code_block*>(reinterpret_cast<cell>(obj) + code_offset);
   }
 
   object* translate_data(const object* obj) {
@@ -196,7 +196,7 @@ struct startup_fixup {
   }
 
   code_block* translate_code(const code_block* compiled) {
-    return fixup_code((code_block*)compiled);
+    return fixup_code(const_cast<code_block*>(compiled));
   }
 
   cell size(const object* obj) {
@@ -268,7 +268,7 @@ char *threadsafe_strerror(int errnum) {
 void factor_vm::load_image(vm_parameters* p) {
 
   FILE* file = OPEN_READ(p->image_path);
-  if (file == NULL) {
+  if (file == nullptr) {
     std::cout << "Cannot open image file: " << AS_UTF8(p->image_path) << std::endl;
     char *msg = threadsafe_strerror(errno);
     std::cout << "strerror: " << msg << std::endl;
@@ -333,15 +333,15 @@ bool factor_vm::save_image(const vm_char* saving_filename,
         (save_special_p(i) ? special_objects[i] : false_object);
 
   FILE* file = OPEN_WRITE(saving_filename);
-  if (file == NULL)
+  if (file == nullptr)
     return false;
   if (safe_fwrite(&h, sizeof(image_header), 1, file) != 1)
     return false;
   if (h.escaped_data_size > 0 &&
-      safe_fwrite((void*)data->tenured->start, h.escaped_data_size, 1, file) != 1)
+      safe_fwrite(reinterpret_cast<void*>(data->tenured->start), h.escaped_data_size, 1, file) != 1)
     return false;
   if (h.code_size > 0 &&
-      safe_fwrite((void*)code->allocator->start, h.code_size, 1, file) != 1)
+      safe_fwrite(reinterpret_cast<void*>(code->allocator->start), h.code_size, 1, file) != 1)
     return false;
   if (raw_fclose(file) == -1)
     return false;

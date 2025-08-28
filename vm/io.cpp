@@ -53,7 +53,7 @@ FILE* factor_vm::safe_fopen(char* filename, const char* mode) {
   FILE* file;
   for (;;) {
     file = fopen(filename, mode);
-    if (file == NULL)
+    if (file == nullptr)
       io_error_if_not_EINTR();
     else
       break;
@@ -157,7 +157,7 @@ void factor_vm::primitive_fopen() {
   byte_array *path = untag_check<byte_array>(ctx->pop());
 
   FILE* file = safe_fopen((char*)(path + 1), (char*)(mode + 1));
-  ctx->push(allot_alien((cell)file));
+  ctx->push(allot_alien(reinterpret_cast<cell>(file)));
 }
 
 FILE* factor_vm::pop_file_handle() {
