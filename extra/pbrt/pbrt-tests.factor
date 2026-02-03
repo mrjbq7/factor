@@ -302,3 +302,45 @@ WorldEnd
 [ killeroo-simple pbrt> [ pbrt-include? ] filter first filename>> ] unit-test
 
 { t } [ killeroo-simple pbrt> dup >pbrt pbrt> = ] unit-test
+
+{ "string" }
+[ "Option \"string\" \"bool disablepixeljitter\" true" pbrt> first type>> ] unit-test
+
+{ "srgb" }
+[ "ColorSpace \"srgb\"" pbrt> first name>> ] unit-test
+
+{ 0 }
+[ "TransformTimes 0 1" pbrt> first start>> ] unit-test
+
+{ 1 }
+[ "TransformTimes 0 1" pbrt> first end>> ] unit-test
+
+{ "StartTime" }
+[ "ActiveTransform StartTime" pbrt> first mode>> ] unit-test
+
+{ "EndTime" }
+[ "ActiveTransform EndTime" pbrt> first mode>> ] unit-test
+
+{ "All" }
+[ "ActiveTransform All" pbrt> first mode>> ] unit-test
+
+{ "geometry/scene.pbrt" }
+[ "Import \"geometry/scene.pbrt\"" pbrt> first filename>> ] unit-test
+
+{ "shape" }
+[ "Attribute \"shape\" \"float alpha\" 1" pbrt> first target>> ] unit-test
+
+{ 1 }
+[ "Attribute \"shape\" \"float alpha\" 1" pbrt> first params>> length ] unit-test
+
+{ "ColorSpace \"rec2020\"\n" }
+[ { T{ pbrt-color-space { name "rec2020" } } } >pbrt ] unit-test
+
+{ "TransformTimes 0 1\n" }
+[ { T{ pbrt-transform-times { start 0 } { end 1 } } } >pbrt ] unit-test
+
+{ "ActiveTransform All\n" }
+[ { T{ pbrt-active-transform { mode "All" } } } >pbrt ] unit-test
+
+{ "Import \"scene.pbrt\"\n" }
+[ { T{ pbrt-import { filename "scene.pbrt" } } } >pbrt ] unit-test

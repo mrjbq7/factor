@@ -44,6 +44,12 @@ TUPLE: pbrt-include filename ;
 TUPLE: pbrt-object-begin name ;
 TUPLE: pbrt-object-end ;
 TUPLE: pbrt-object-instance name ;
+TUPLE: pbrt-option type params ;
+TUPLE: pbrt-color-space name ;
+TUPLE: pbrt-transform-times start end ;
+TUPLE: pbrt-active-transform mode ;
+TUPLE: pbrt-import filename ;
+TUPLE: pbrt-attribute target params ;
 
 ERROR: pbrt-parse-error msg ;
 
@@ -249,6 +255,18 @@ SINGLETON: close-bracket
         { "ObjectInstance" [
             next-token pbrt-object-instance boa
         ] }
+        { "Option" [ read-typed-params pbrt-option boa ] }
+        { "ColorSpace" [ next-token pbrt-color-space boa ] }
+        { "TransformTimes" [
+            2 read-n-numbers first2 pbrt-transform-times boa
+        ] }
+        { "ActiveTransform" [
+            next-token pbrt-active-transform boa
+        ] }
+        { "Import" [ next-token pbrt-import boa ] }
+        { "Attribute" [
+            next-token read-params pbrt-attribute boa
+        ] }
         [ "Unknown directive: " prepend pbrt-parse-error ]
     } case ;
 
@@ -436,6 +454,28 @@ M: pbrt-object-end write-pbrt-directive
 
 M: pbrt-object-instance write-pbrt-directive
     "ObjectInstance " write name>> write-quoted ;
+
+M: pbrt-option write-pbrt-directive
+    [ type>> ] [ params>> ] bi "Option" write-type-params ;
+
+M: pbrt-color-space write-pbrt-directive
+    "ColorSpace " write name>> write-quoted ;
+
+M: pbrt-transform-times write-pbrt-directive
+    "TransformTimes" write
+    [ " " write start>> write-number ]
+    [ " " write end>> write-number ] bi ;
+
+M: pbrt-active-transform write-pbrt-directive
+    "ActiveTransform " write mode>> write ;
+
+M: pbrt-import write-pbrt-directive
+    "Import " write filename>> write-quoted ;
+
+M: pbrt-attribute write-pbrt-directive
+    "Attribute " write
+    [ target>> write-quoted ]
+    [ params>> write-params ] bi ;
 
 : write-pbrt ( directives -- )
     [ write-pbrt-directive nl ] each ;
